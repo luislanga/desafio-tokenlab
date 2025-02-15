@@ -37,6 +37,18 @@ export class LambdasConstruct extends Construct {
         lambdaBasePath,
         "/user/controllers/hello.ts"
       ),
+
+      getUserById: createLambda(
+        this,
+        defaultFunctionProps,
+        "GetUserById",
+        lambdaBasePath,
+        "/user/controllers/getUserById.ts"
+      ),
     };
+
+    Object.values(this.userLambdas).forEach((lambda: any) => {
+      props.table.grantReadWriteData(lambda);
+    });
   }
 }
