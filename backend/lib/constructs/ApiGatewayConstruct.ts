@@ -4,11 +4,7 @@ import { AuthLambdaConstruct } from "./AuthLambdaConstruct";
 import { addMethods } from "./helpers/addMethods";
 
 export class ApiGatewayConstruct extends Construct {
-  constructor(
-    scope: Construct,
-    id: string,
-    { userLambdas, userPoolId }: any
-  ) {
+  constructor(scope: Construct, id: string, { userLambdas, userPoolId }: any) {
     super(scope, id);
 
     const api = new apigateway.RestApi(this, "ApiGateway", {
@@ -33,13 +29,27 @@ export class ApiGatewayConstruct extends Construct {
       authorizationType: apigateway.AuthorizationType.CUSTOM,
     };
 
+    // User Routes
     const user = api.root.addResource("user"); // /user
+    const listUsers = user.addResource("list"); // /user/list
+    const userById = user.addResource("{userId}"); // /user/{userId}
+
+    // Event Routes
+    const event = api.root.addResource("event"); // /event
+    const eventById = event.addResource("{eventId}"); // /event/{eventId}
+
+    // Host Invite Routes
+    const hostInvite = api.root
+      .addResource("host_invite")
+      .addResource("{eventId}"); // /host_invite/{eventId}
+
+    // Guest Invite Routes
+    const guestInvite = api.root.addResource("guest_invite"); // /guest_invite
+    const guestInviteByid = guestInvite.addResource("{guestInviteId}"); // /guest_invite/{guestInviteId}
 
     addMethods(
       user,
-      [
-        { method: "GET", lambda: userLambdas.hello },
-      ],
+      [{ method: "GET", lambda: userLambdas.hello }],
       authParams
     );
   }
