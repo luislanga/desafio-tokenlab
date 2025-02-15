@@ -8,7 +8,7 @@ export const handlerFunction = async (event: any) => {
 
   const user = {
     userId,
-    name: "",
+    username: "",
   };
 
   await createUserService(user);

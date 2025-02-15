@@ -10,7 +10,7 @@ export const createUserDynamoDbAdapter = (user: User): PutCommandInput => {
       PK: `USER#`,
       SK: `USER#${user.userId}`,
       userId: user.userId,
-      name: user.name,
+      username: user.username,
     },
   };
 };
