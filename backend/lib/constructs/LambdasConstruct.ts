@@ -45,6 +45,14 @@ export class LambdasConstruct extends Construct {
         lambdaBasePath,
         "/user/controllers/getUserById.ts"
       ),
+
+      listUsers: createLambda(
+        this,
+        defaultFunctionProps,
+        "ListUsers",
+        lambdaBasePath,
+        "/user/controllers/listUsers.ts"
+      ),
     };
 
     Object.values(this.userLambdas).forEach((lambda: any) => {

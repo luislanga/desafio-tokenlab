@@ -58,5 +58,11 @@ export class ApiGatewayConstruct extends Construct {
       [{ method: "GET", lambda: userLambdas.getUserById }],
       authParams
     )
+
+    addMethods(
+      listUsers,
+      [{ method: "GET", lambda: userLambdas.listUsers }],
+      authParams
+    )
   }
 }
