@@ -4,11 +4,11 @@ import { errorHandler } from "../../../middleware/errorHandler";
 
 export const handlerFunction = async (event: any) => {
   const userId = event.request.userAttributes.sub;
-  console.log(event);
+  const username = event.userName
 
   const user = {
     userId,
-    username: "",
+    username,
   };
 
   await createUserService(user);
