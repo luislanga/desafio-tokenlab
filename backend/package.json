@@ -12,6 +12,8 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
+    "@types/jsonwebtoken": "^9.0.8",
+    "@types/jwk-to-pem": "^2.0.3",
     "@types/node": "22.7.9",
     "aws-cdk": "2.174.0",
     "esbuild": "^0.25.0",
@@ -22,6 +24,9 @@
   },
   "dependencies": {
     "aws-cdk-lib": "^2.174.0",
-    "constructs": "^10.0.0"
+    "axios": "^1.7.9",
+    "constructs": "^10.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "jwk-to-pem": "^2.0.7"
   }
 }
