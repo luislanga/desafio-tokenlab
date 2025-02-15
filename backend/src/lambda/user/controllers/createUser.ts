@@ -1,25 +1,19 @@
-export const handler = async (event: any) => {
-  try {
-    const userId = event.request.userAttributes.sub;
+import middy from "middy";
+import { createUserService } from "../services/createUserService";
+import { errorHandler } from "../../../middleware/errorHandler";
 
-    const user = {
-      userId,
-      name: "",
-      createdAt: new Date().toISOString(),
-    };
+export const handlerFunction = async (event: any) => {
+  const userId = event.request.userAttributes.sub;
+  console.log(event);
 
-    //await createUserService(user); -> implement this
+  const user = {
+    userId,
+    name: "",
+  };
 
-    return JSON.stringify({
-      statusCode: 200,
-      message: "user created (mock)",
-    });
-  } catch (error) {
-    console.error(error)
-    return JSON.stringify({
-        statusCode: 500,
-        message: "something went wrong",
-        error
-      });
-  }
+  await createUserService(user);
+
+  return event;
 };
+
+export const handler = middy(handlerFunction).use(errorHandler());
