@@ -1,16 +1,15 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import { DynamoDbTableConstruct } from './constructs/DynamoDbTableConstruct';
 
-export class BackendStack extends cdk.Stack {
+export class TokenlabBackendStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
+    const dynamoDbTable = new DynamoDbTableConstruct(
+      this,
+      "DynamoDbTableConstruct"
+    );
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'BackendQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
   }
 }
