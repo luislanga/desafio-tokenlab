@@ -4,7 +4,11 @@ import { AuthLambdaConstruct } from "./AuthLambdaConstruct";
 import { addMethods } from "./helpers/addMethods";
 
 export class ApiGatewayConstruct extends Construct {
-  constructor(scope: Construct, id: string, { userLambdas, userPoolId }: any) {
+  constructor(
+    scope: Construct,
+    id: string,
+    { userLambdas, calendarEventLambdas, userPoolId }: any
+  ) {
     super(scope, id);
 
     const api = new apigateway.RestApi(this, "ApiGateway", {
@@ -57,12 +61,18 @@ export class ApiGatewayConstruct extends Construct {
       userById,
       [{ method: "GET", lambda: userLambdas.getUserById }],
       authParams
-    )
+    );
 
     addMethods(
       listUsers,
       [{ method: "GET", lambda: userLambdas.listUsers }],
       authParams
-    )
+    );
+
+    addMethods(
+      event,
+      [{ method: "POST", lambda: calendarEventLambdas.createCalendarEvent }],
+      authParams
+    );
   }
 }

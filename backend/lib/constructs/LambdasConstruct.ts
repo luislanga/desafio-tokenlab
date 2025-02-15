@@ -13,6 +13,7 @@ interface LambdasConstructProps {
 
 export class LambdasConstruct extends Construct {
   public readonly userLambdas: any;
+  public readonly calendarEventLambdas: any;
 
   constructor(scope: Construct, id: string, props: LambdasConstructProps) {
     super(scope, id);
@@ -55,7 +56,20 @@ export class LambdasConstruct extends Construct {
       ),
     };
 
+    this.calendarEventLambdas = {
+      createCalendarEvent: createLambda(
+        this,
+        defaultFunctionProps,
+        "CreateCalendarEvent",
+        lambdaBasePath,
+        "/calendarEvent/controllers/createCalendarEvent.ts"
+      ),
+    };
+
     Object.values(this.userLambdas).forEach((lambda: any) => {
+      props.table.grantReadWriteData(lambda);
+    });
+    Object.values(this.calendarEventLambdas).forEach((lambda: any) => {
       props.table.grantReadWriteData(lambda);
     });
   }

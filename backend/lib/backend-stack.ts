@@ -35,6 +35,7 @@ export class TokenlabBackendStack extends cdk.Stack {
 
     const apiGateway = new ApiGatewayConstruct(this, "ApiGatewayConstruct", {
       userLambdas: lambdas.userLambdas,
+      calendarEventLambdas: lambdas.calendarEventLambdas,
       userPoolId,
     });
   }
