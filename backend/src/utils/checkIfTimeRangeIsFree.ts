@@ -11,6 +11,10 @@ export const checkIfTimeRangeIsFree = async (
     endDate
   );
 
+  if (!eventsInRange.length) {
+    return true;
+  }
+
   const newEventStart = Number(startDate);
   const newEventEnd = Number(endDate);
 
@@ -21,34 +25,14 @@ export const checkIfTimeRangeIsFree = async (
 
   takenSlots.sort((a, b) => a.takenStartDate - b.takenStartDate);
 
-  if (newEventEnd <= takenSlots[0].takenStartDate) {
-    return true;
-  }
-
-  if (newEventStart >= takenSlots[takenSlots.length - 1].takenEndDate) {
-    return true;
-  }
-
-  for (let i = 0; i < takenSlots.length - 1; i++) {
+  for (let i = 0; i < takenSlots.length; i++) {
     const currentEvent = takenSlots[i];
-    const nextEvent = takenSlots[i + 1];
-
     if (
-      (newEventStart < currentEvent.takenEndDate &&
-        newEventEnd > currentEvent.takenStartDate) ||
-      (newEventStart < nextEvent.takenEndDate &&
-        newEventEnd > nextEvent.takenStartDate)
+      newEventStart < currentEvent.takenEndDate &&
+      newEventEnd > currentEvent.takenStartDate
     ) {
       return false;
     }
-
-    if (
-      newEventStart === currentEvent.takenEndDate ||
-      newEventEnd === nextEvent.takenStartDate
-    ) {
-      return true;
-    }
   }
-
   return true;
 };

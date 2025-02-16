@@ -5,6 +5,8 @@ import { errorHandler } from "../../../middleware/errorHandler";
 import { bodyValidatorMiddleware } from "../../../middleware/bodyValidatorMiddleware";
 import { createResponse } from "../../../utils/createResponse";
 import { createCalendarEventService } from "../services/createCalendarEventService";
+import { checkIfTimeRangeIsFree } from "../../../utils/checkIfTimeRangeIsFree";
+import { createHttpError } from "../../../utils/createHttpError";
 
 const calendarEventBodySchema = Joi.object({
   calendarEventDescription: Joi.string().required().min(1).max(50),
@@ -16,6 +18,16 @@ const calendarEventBodySchema = Joi.object({
 const handlerFunction = async (event: any) => {
   const userId = event.requestContext.authorizer.principalId;
   const body = JSON.parse(event.body);
+  
+  const isTimeRangeFree = await checkIfTimeRangeIsFree(
+    userId,
+    body.startDate,
+    body.endDate
+  );
+
+  if (!isTimeRangeFree) {
+    throw createHttpError(400, "This time range is taken.");
+  }
 
   const calendarEvent = {
     calendarEventId: ulid(),
