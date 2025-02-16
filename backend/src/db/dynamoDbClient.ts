@@ -12,6 +12,8 @@ import {
   UpdateCommand,
   DeleteCommandInput,
   DeleteCommand,
+  GetCommandInput,
+  GetCommand,
 } from "@aws-sdk/lib-dynamodb";
 
 // Singleton client for reusability
@@ -26,6 +28,16 @@ const getDynamoDBClient = () => {
 };
 
 const dynamodb = getDynamoDBClient();
+
+export const get = async (params: GetCommandInput) => {
+  try {
+    const result = await dynamodb.send(new GetCommand(params));
+    return result.Item || null;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error getting item from DynamoDB");
+  }
+};
 
 export const query = async (params: QueryCommandInput) => {
   try {
