@@ -21,6 +21,8 @@ export const createCalendarEventDynamoDbAdapter = (
       SK: `EVENT#${calendarEventId}`,
       GSI1PK: `USER#${userId}`,
       GSI1SK: `EVENT#DATE#${startDate}`,
+      hostId: userId,
+      calendarEventId,
       calendarEventDescription,
       startDate,
       endDate,
