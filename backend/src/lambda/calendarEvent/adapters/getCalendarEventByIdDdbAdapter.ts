@@ -1,17 +1,16 @@
-import { QueryCommandInput } from "@aws-sdk/lib-dynamodb";
+import { GetCommandInput } from "@aws-sdk/lib-dynamodb";
 
 const TableName = process.env.TABLE_NAME;
 
 export const getCalendarEventByIdDynamoDbAdapter = (
   userId: string,
   eventId: string
-): QueryCommandInput => {
+): GetCommandInput => {
   return {
     TableName,
-    KeyConditionExpression: "PK = :pk AND SK = :sk",
-    ExpressionAttributeValues: {
-      ":pk": `USER#${userId}`,
-      ":sk": `EVENT#${eventId}`,
+    Key: {
+      PK: `USER#${userId}`,
+      SK: `EVENT#${eventId}`,
     },
     ProjectionExpression:
       "calendarEventId, hostId, calendarEventDescription, startDate, endDate, hasGuests",
