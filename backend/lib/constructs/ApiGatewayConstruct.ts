@@ -71,7 +71,10 @@ export class ApiGatewayConstruct extends Construct {
 
     addMethods(
       event,
-      [{ method: "POST", lambda: calendarEventLambdas.createCalendarEvent }],
+      [
+        { method: "GET", lambda: calendarEventLambdas.listCalendarEvents },
+        { method: "POST", lambda: calendarEventLambdas.createCalendarEvent },
+      ],
       authParams
     );
   }
