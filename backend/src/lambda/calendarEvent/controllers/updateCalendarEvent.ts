@@ -33,9 +33,12 @@ const handlerFunction = async (event: any) => {
   }
 
   if (body.startDate || body.endDate) {
-
     const startDate = body.startDate ?? existingEvent.startDate;
     const endDate = body.endDate ?? existingEvent.endDate;
+
+    if (startDate >= endDate) {
+      throw createHttpError(400, '"endDate" must be after "startDate".');
+    }
 
     // refactor this and in create event workflow:
 
