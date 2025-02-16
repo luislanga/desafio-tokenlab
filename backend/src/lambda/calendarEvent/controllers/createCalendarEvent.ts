@@ -8,8 +8,8 @@ import { createCalendarEventService } from "../services/createCalendarEventServi
 
 const calendarEventBodySchema = Joi.object({
   calendarEventDescription: Joi.string().required().min(1).max(50),
-  startDate: Joi.date().iso().required(),
-  endDate: Joi.date().iso().required(),
+  startDate: Joi.string().required().min(1),
+  endDate: Joi.string().required().min(1),
   guests: Joi.array().items(Joi.string()).required(),
 });
 
@@ -22,7 +22,7 @@ const handlerFunction = async (event: any) => {
     userId,
     calendarEventDescription: body.calendarEventDescription,
     startDate: body.startDate,
-    endDate: body.startDate,
+    endDate: body.endDate,
     hasGuests: body.guests && body.guests.length > 0,
   };
 
