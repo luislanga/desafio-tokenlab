@@ -1,4 +1,4 @@
-import { get, query } from "../../../db/dynamoDbClient";
+import { get } from "../../../db/dynamoDbClient";
 import { getCalendarEventByIdDynamoDbAdapter } from "../adapters/getCalendarEventByIdDdbAdapter";
 
 export const getCalendarEventByIdService = async (
