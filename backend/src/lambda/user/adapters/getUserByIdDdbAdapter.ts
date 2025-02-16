@@ -1,16 +1,13 @@
 const TableName = process.env.TABLE_NAME;
 
-import { QueryCommandInput } from "@aws-sdk/lib-dynamodb";
+import { GetCommandInput } from "@aws-sdk/lib-dynamodb";
 
-export const getUserByIdDynamoDbAdapter = (
-  userId: string
-): QueryCommandInput => {
+export const getUserByIdDynamoDbAdapter = (userId: string): GetCommandInput => {
   return {
     TableName,
-    KeyConditionExpression: "PK = :pk AND SK = :sk",
-    ExpressionAttributeValues: {
-      ":pk": "USER#",
-      ":sk": `USER#${userId}`,
+    Key: {
+      PK: "USER#",
+      SK: `USER#${userId}`,
     },
     ProjectionExpression: "username, userId",
   };
