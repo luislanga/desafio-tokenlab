@@ -80,7 +80,10 @@ export class ApiGatewayConstruct extends Construct {
 
     addMethods(
       eventById,
-      [{ method: "GET", lambda: calendarEventLambdas.getCalendarEventById }],
+      [
+        { method: "GET", lambda: calendarEventLambdas.getCalendarEventById },
+        { method: "DELETE", lambda: calendarEventLambdas.deleteCalendarEvent },
+      ],
       authParams
     );
   }
