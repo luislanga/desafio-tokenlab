@@ -20,6 +20,13 @@ const handlerFunction = async (event: any) => {
   const userId = event.requestContext.authorizer.principalId;
   const body = JSON.parse(event.body);
 
+  const newEventStart = Number(body.startDate);
+  const newEventEnd = Number(body.endDate);
+
+  if (newEventStart >= newEventEnd) {
+    throw createHttpError(400, '"endDate" must be after "startDate".');
+  }
+
   const eventsInRange = await listCalendarEventsByDateService(
     userId,
     body.startDate,
@@ -27,9 +34,6 @@ const handlerFunction = async (event: any) => {
   );
 
   if (eventsInRange.length) {
-    const newEventStart = Number(body.startDate);
-    const newEventEnd = Number(body.endDate);
-
     const takenSlots = eventsInRange.map((event) => ({
       takenStartDate: Number(event.startDate),
       takenEndDate: Number(event.endDate),
