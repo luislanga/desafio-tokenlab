@@ -52,12 +52,6 @@ export class ApiGatewayConstruct extends Construct {
     const guestInviteByid = guestInvite.addResource("{guestInviteId}"); // /guest_invite/{guestInviteId}
 
     addMethods(
-      user,
-      [{ method: "GET", lambda: userLambdas.hello }],
-      authParams
-    );
-
-    addMethods(
       userById,
       [{ method: "GET", lambda: userLambdas.getUserById }],
       authParams

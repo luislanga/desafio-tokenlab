@@ -31,14 +31,6 @@ export class LambdasConstruct extends Construct {
     };
 
     this.userLambdas = {
-      hello: createLambda(
-        this,
-        defaultFunctionProps,
-        "Hello",
-        lambdaBasePath,
-        "/user/controllers/hello.ts"
-      ),
-
       getUserById: createLambda(
         this,
         defaultFunctionProps,
