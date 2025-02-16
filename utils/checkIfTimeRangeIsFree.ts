@@ -1,7 +1,7 @@
 export const checkIfTimeRangeIsFree = async (
   newEventStart: number,
   newEventEnd: number,
-  takenSlots: any[]
+  takenSlots: any[] //type this later
 ) => {
   for (let i = 0; i < takenSlots.length; i++) {
     const currentEvent = takenSlots[i];
