@@ -13,6 +13,11 @@ export class ApiGatewayConstruct extends Construct {
 
     const api = new apigateway.RestApi(this, "ApiGateway", {
       restApiName: "tokenlab-calendar-api",
+      defaultCorsPreflightOptions: {
+        allowOrigins: apigateway.Cors.ALL_ORIGINS,
+        allowMethods: apigateway.Cors.ALL_METHODS,
+        allowHeaders: apigateway.Cors.DEFAULT_HEADERS,
+      },
     });
 
     const authLambda = new AuthLambdaConstruct(this, "AuthLambdaConstruct", {
