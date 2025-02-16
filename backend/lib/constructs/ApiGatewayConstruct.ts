@@ -77,5 +77,11 @@ export class ApiGatewayConstruct extends Construct {
       ],
       authParams
     );
+
+    addMethods(
+      eventById,
+      [{ method: "GET", lambda: calendarEventLambdas.getCalendarEventById }],
+      authParams
+    );
   }
 }
