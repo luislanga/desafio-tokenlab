@@ -12,6 +12,28 @@ export const listCalendarEventsDynamoDbAdapter = (
       ":pk": `USER#${userId}`,
       ":skPrefix": "EVENT#",
     },
-    ProjectionExpression: "calendarEventId, hostId, calendarEventDescription, startDate, endDate, hasGuests",
+    ProjectionExpression:
+      "calendarEventId, hostId, calendarEventDescription, startDate, endDate, hasGuests",
+  };
+};
+
+export const listCalendarEventsByDateDynamoDbAdapter = (
+  userId: string,
+  startDate: string,
+  endDate: string
+) => {
+
+  return {
+    TableName,
+    KeyConditionExpression: "PK = :pk AND begins_with(SK, :skPrefix)",
+    FilterExpression: "startDate <= :endDate AND endDate >= :startDate",
+    ExpressionAttributeValues: {
+      ":pk": `USER#${userId}`,
+      ":skPrefix": "EVENT#",
+      ":startDate": startDate,
+      ":endDate": endDate,
+    },
+    ProjectionExpression:
+      "calendarEventId, hostId, calendarEventDescription, startDate, endDate, hasGuests",
   };
 };
