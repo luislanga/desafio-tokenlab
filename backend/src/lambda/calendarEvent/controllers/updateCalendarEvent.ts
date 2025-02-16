@@ -5,6 +5,9 @@ import { bodyValidatorMiddleware } from "../../../middleware/bodyValidatorMiddle
 import { createResponse } from "../../../utils/createResponse";
 import { updateCalendarEventService } from "../services/updateCalendarEventService";
 import { getCalendarEventByIdService } from "../services/getCalendarEventByIdService";
+import { listCalendarEventsByDateService } from "../services/listCalendarEventsService";
+import { checkIfTimeRangeIsFree } from "../../../../../utils/checkIfTimeRangeIsFree";
+import { createHttpError } from "../../../utils/createHttpError";
 
 const updateEventBodySchema = Joi.object({
   calendarEventDescription: Joi.string().min(1).max(50).optional(),
@@ -28,6 +31,44 @@ const handlerFunction = async (event: any) => {
       message: "Event not found",
     });
   }
+
+  if (body.startDate || body.endDate) {
+
+    const startDate = body.startDate ?? existingEvent.startDate;
+    const endDate = body.endDate ?? existingEvent.endDate;
+
+    // refactor this and in create event workflow:
+
+    const eventsInRange = await listCalendarEventsByDateService(
+      userId,
+      startDate,
+      endDate
+    );
+
+    if (eventsInRange.length) {
+      const newEventStart = Number(startDate);
+      const newEventEnd = Number(endDate);
+
+      const takenSlots = eventsInRange.map((event) => ({
+        takenStartDate: Number(event.startDate),
+        takenEndDate: Number(event.endDate),
+      }));
+
+      takenSlots.sort((a, b) => a.takenStartDate - b.takenStartDate);
+
+      const isTimeRangeFree = await checkIfTimeRangeIsFree(
+        newEventStart,
+        newEventEnd,
+        takenSlots
+      );
+
+      if (!isTimeRangeFree) {
+        throw createHttpError(400, "This time range is taken.");
+      }
+    }
+  }
+
+  // refactor until here
 
   const fieldsToUpdate = Object.keys(body).reduce<Record<string, any>>(
     (acc, key) => {
