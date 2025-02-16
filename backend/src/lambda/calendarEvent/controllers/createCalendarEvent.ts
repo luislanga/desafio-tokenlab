@@ -7,6 +7,7 @@ import { createResponse } from "../../../utils/createResponse";
 import { createCalendarEventService } from "../services/createCalendarEventService";
 import { checkIfTimeRangeIsFree } from "../../../utils/checkIfTimeRangeIsFree";
 import { createHttpError } from "../../../utils/createHttpError";
+import { listCalendarEventsByDateService } from "../services/listCalendarEventsService";
 
 const calendarEventBodySchema = Joi.object({
   calendarEventDescription: Joi.string().required().min(1).max(50),
@@ -18,15 +19,33 @@ const calendarEventBodySchema = Joi.object({
 const handlerFunction = async (event: any) => {
   const userId = event.requestContext.authorizer.principalId;
   const body = JSON.parse(event.body);
-  
-  const isTimeRangeFree = await checkIfTimeRangeIsFree(
+
+  const eventsInRange = await listCalendarEventsByDateService(
     userId,
     body.startDate,
     body.endDate
   );
 
-  if (!isTimeRangeFree) {
-    throw createHttpError(400, "This time range is taken.");
+  if (eventsInRange.length) {
+    const newEventStart = Number(body.startDate);
+    const newEventEnd = Number(body.endDate);
+
+    const takenSlots = eventsInRange.map((event) => ({
+      takenStartDate: Number(event.startDate),
+      takenEndDate: Number(event.endDate),
+    }));
+
+    takenSlots.sort((a, b) => a.takenStartDate - b.takenStartDate);
+
+    const isTimeRangeFree = await checkIfTimeRangeIsFree(
+      newEventStart,
+      newEventEnd,
+      takenSlots
+    );
+
+    if (!isTimeRangeFree) {
+      throw createHttpError(400, "This time range is taken.");
+    }
   }
 
   const calendarEvent = {
