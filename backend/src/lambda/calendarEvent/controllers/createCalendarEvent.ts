@@ -5,7 +5,7 @@ import { errorHandler } from "../../../middleware/errorHandler";
 import { bodyValidatorMiddleware } from "../../../middleware/bodyValidatorMiddleware";
 import { createResponse } from "../../../utils/createResponse";
 import { createCalendarEventService } from "../services/createCalendarEventService";
-import { checkIfTimeRangeIsFree } from "../../../utils/checkIfTimeRangeIsFree";
+import { checkIfTimeRangeIsFree } from "../../../../../utils/checkIfTimeRangeIsFree";
 import { createHttpError } from "../../../utils/createHttpError";
 import { listCalendarEventsByDateService } from "../services/listCalendarEventsService";
 
