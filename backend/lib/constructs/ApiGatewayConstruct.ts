@@ -83,6 +83,7 @@ export class ApiGatewayConstruct extends Construct {
       [
         { method: "GET", lambda: calendarEventLambdas.getCalendarEventById },
         { method: "DELETE", lambda: calendarEventLambdas.deleteCalendarEvent },
+        { method: "PUT", lambda: calendarEventLambdas.updateCalendarEvent },
       ],
       authParams
     );

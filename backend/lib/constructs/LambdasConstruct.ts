@@ -88,6 +88,14 @@ export class LambdasConstruct extends Construct {
         lambdaBasePath,
         "/calendarEvent/controllers/deleteCalendarEvent.ts"
       ),
+
+      updateCalendarEvent: createLambda(
+        this,
+        defaultFunctionProps,
+        "UpdateCalendarEvent",
+        lambdaBasePath,
+        "/calendarEvent/controllers/updateCalendarEvent.ts"
+      ),
     };
 
     Object.values(this.userLambdas).forEach((lambda: any) => {
