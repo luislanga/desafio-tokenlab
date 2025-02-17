@@ -13,6 +13,6 @@ export const createResponse = (
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PUT",
+    "Access-Control-Allow-Methods": "*",
   },
 });

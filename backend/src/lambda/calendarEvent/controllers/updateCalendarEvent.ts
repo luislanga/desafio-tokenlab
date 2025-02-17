@@ -53,6 +53,7 @@ const handlerFunction = async (event: any) => {
       const newEventEnd = Number(endDate);
 
       const takenSlots = eventsInRange.map((event) => ({
+        id: event.calendarEventId,
         takenStartDate: Number(event.startDate),
         takenEndDate: Number(event.endDate),
       }));
@@ -62,7 +63,8 @@ const handlerFunction = async (event: any) => {
       const isTimeRangeFree = await checkIfTimeRangeIsFree(
         newEventStart,
         newEventEnd,
-        takenSlots
+        takenSlots,
+        calendarEventId
       );
 
       if (!isTimeRangeFree) {
