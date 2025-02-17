@@ -65,6 +65,7 @@ const handlerFunction = async (event: any) => {
 
   return createResponse(201, {
     message: "Event created successfully",
+    calendarEventId: calendarEvent.calendarEventId,
   });
 };
 
