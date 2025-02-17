@@ -1,38 +1,67 @@
 import { Calendar as BigCalendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { mockEvents } from "../mockEvents";
+import CreateEventModal from "./CreateEventModal";
 import { useState } from "react";
+import { useFetchEvents } from "../hooks/useEvents";
+import DeleteEventModal from "./DeleteEventModal";
+import UpdateEventModal from "./UpdateEventModal";
 
 const localizer = momentLocalizer(moment);
 
 const Calendar = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [currentView, setCurrentView] = useState<any>("month");
+  const { data: events, isLoading, error } = useFetchEvents();
 
-  const handleViewChange = (view: any) => {
-    setCurrentView(view);
+  const [createEventModalIsOpen, setCreateEventModalIsOpen] = useState(false);
+  const [updateModalEventIsOpen, setUpdateModalEventIsOpen] = useState(false);
+  const [selectedEventInfo, setSelectedEventInfo] = useState<any>(null);
+  const [selectedSlotInfo, setSelectedSlotInfo] = useState<any>(null);
+
+  const handleOpenCreateEventModal = (slotInfo: any) => {
+    setCreateEventModalIsOpen(true);
+    setSelectedSlotInfo(slotInfo);
   };
 
-  const handleNavigate = (date: any) => {
-    setCurrentDate(date);
+  const handleOpenDeleteEventModal = (eventInfo: any) => {
+    setUpdateModalEventIsOpen(true);
+    setSelectedEventInfo(eventInfo);
   };
 
   return (
     <div className="container mt-4">
-      <BigCalendar
-        events={mockEvents}
-        defaultView="day"
-        view={currentView}
-        localizer={localizer}
-        startAccessor="start"
-        endAccessor="end"
-        titleAccessor="title"
-        style={{ height: 500 }}
-        onNavigate={handleNavigate}
-        onView={handleViewChange}
-        date={currentDate}
-      />
+      {createEventModalIsOpen && (
+        <CreateEventModal
+          startDate={selectedSlotInfo.start}
+          onClose={() => setCreateEventModalIsOpen(false)}
+        />
+      )}
+      {updateModalEventIsOpen && (
+        <UpdateEventModal
+          event={selectedEventInfo}
+          onClose={() => setUpdateModalEventIsOpen(false)}
+        />
+      )}
+      {updateModalEventIsOpen && (
+        <DeleteEventModal
+          event={selectedEventInfo}
+          onClose={() => setUpdateModalEventIsOpen(false)}
+        />
+      )}
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>Error loading events</p>
+      ) : (
+        <BigCalendar
+          localizer={localizer}
+          events={events}
+          style={{ height: 500 }}
+          views={["month", "week", "day"]}
+          onSelectSlot={handleOpenCreateEventModal}
+          onSelectEvent={handleOpenDeleteEventModal}
+          selectable
+        />
+      )}
     </div>
   );
 };
