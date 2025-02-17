@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
 import { useCreateEvent } from "../hooks/useEvents";
 
 interface CreateEventModalProps {
-  startDate: Date | null; // Prop for the start date
-  onClose: () => void; // Close the modal
+  startDate: Date | null;
+  onClose: () => void;
 }
 
 const CreateEventModal = ({ startDate, onClose }: CreateEventModalProps) => {
   const [formData, setFormData] = useState({
     title: "",
-    start: startDate ? startDate.toISOString().slice(0, 16) : "",
-    end: "",
+    start: startDate || new Date(),
+    end: new Date(),
   });
 
   useEffect(() => {
     if (startDate) {
       setFormData((prev) => ({
         ...prev,
-        start: startDate.toISOString().slice(0, 16),
+        start: startDate,
       }));
     }
   }, [startDate]);
@@ -29,10 +30,18 @@ const CreateEventModal = ({ startDate, onClose }: CreateEventModalProps) => {
       [name]: value,
     });
   };
+
+  const handleDateChange = (date: Date, name: string) => {
+    setFormData({
+      ...formData,
+      [name]: date,
+    });
+  };
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    const startUnix = new Date(formData.start).getTime();
-    const endUnix = new Date(formData.end).getTime();
+    const startUnix = formData.start.getTime();
+    const endUnix = formData.end.getTime();
     handleCreateEvent(formData.title, startUnix, endUnix);
   };
 
@@ -69,25 +78,27 @@ const CreateEventModal = ({ startDate, onClose }: CreateEventModalProps) => {
             onChange={handleInputChange}
           />
 
-          <label htmlFor="date">Start:</label>
-          <input
-            type="datetime-local"
+          <label htmlFor="start">Start:</label>
+          <DatePicker
+            selected={formData.start}
+            onChange={(date) => handleDateChange(date as Date, "start")}
+            showTimeSelect
+            dateFormat="Pp"
             id="start"
-            name="start"
-            value={formData.start}
-            onChange={handleInputChange}
           />
 
-          <label htmlFor="date">End:</label>
-          <input
-            type="datetime-local"
+          <label htmlFor="end">End:</label>
+          <DatePicker
+            selected={formData.end}
+            onChange={(date) => handleDateChange(date as Date, "end")}
+            showTimeSelect
+            dateFormat="Pp"
             id="end"
-            name="end"
-            value={formData.end}
-            onChange={handleInputChange}
           />
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isPending}>
+          {isPending ? "Creating..." : "Submit"}
+        </button>
       </form>
     </div>
   );

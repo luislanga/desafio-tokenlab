@@ -1,28 +1,19 @@
 import { useAuth } from "react-oidc-context";
-import Cookies from "js-cookie";
 
 const Auth = () => {
-  const { user, isAuthenticated, signinRedirect, signoutRedirect } = useAuth();
+  const auth = useAuth();
 
-  // Store the JWT in cookies after authentication
-  if (isAuthenticated && user) {
-    Cookies.set("jwt", user.id_token || "", { expires: 7 }); // Set cookie with a 7-day expiry
+  if (auth.isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (auth.error) {
+    return <div>Encountering error... {auth.error.message}</div>;
   }
 
   return (
     <div>
-      {isAuthenticated ? (
-        <div>
-          <h2>Authenticated</h2>
-          <pre>{user?.profile?.email}</pre>
-          <button onClick={() => signoutRedirect()}>Logout</button>
-        </div>
-      ) : (
-        <div>
-          <h2>Please Log In</h2>
-          <button onClick={() => signinRedirect()}>Login</button>
-        </div>
-      )}
+      <button onClick={() => auth.signinRedirect()}>Sign in</button>
     </div>
   );
 };

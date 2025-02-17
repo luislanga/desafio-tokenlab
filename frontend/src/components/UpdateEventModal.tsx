@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useUpdateEvent } from "../hooks/useEvents";
+import DatePicker from "react-datepicker";
 
 const UpdateEventModal = ({ event, onClose }: any) => {
   const [formData, setFormData] = useState({
     calendarEventId: event.calendarEventId,
     title: event.title,
-    start: new Date(event.start).toISOString().slice(0, 16),
-    end: new Date(event.end).toISOString().slice(0, 16)
-    ,
+    start: new Date(event.start),
+    end: new Date(event.end),
   });
 
   const handleInputChange = (e: any) => {
@@ -17,13 +17,27 @@ const UpdateEventModal = ({ event, onClose }: any) => {
       [name]: value,
     });
   };
+
+  const handleDateChange = (date: Date, field: "start" | "end") => {
+    setFormData({
+      ...formData,
+      [field]: date,
+    });
+  };
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    const startUnix = new Date(formData.start).getTime();
-    const endUnix = new Date(formData.end).getTime();
-    handleUpdateEvent(formData.title, startUnix, endUnix, formData.calendarEventId);
+    const startUnix = formData.start.getTime();
+    const endUnix = formData.end.getTime();
+    handleUpdateEvent(
+      formData.title,
+      startUnix,
+      endUnix,
+      formData.calendarEventId
+    );
   };
-  const { mutateAsync: updateEventFn, isPending } = useUpdateEvent();
+
+  const { mutateAsync: updateEventFn, isPending }: any = useUpdateEvent();
 
   const handleUpdateEvent = async (
     title: string,
@@ -36,7 +50,7 @@ const UpdateEventModal = ({ event, onClose }: any) => {
         title,
         start: String(startUnix),
         end: String(endUnix),
-        calendarEventId
+        calendarEventId,
       });
       alert("Evento atualizado com sucesso!");
       onClose();
@@ -58,25 +72,27 @@ const UpdateEventModal = ({ event, onClose }: any) => {
             onChange={handleInputChange}
           />
 
-          <label htmlFor="date">Start:</label>
-          <input
-            type="datetime-local"
+          <label htmlFor="start">Start:</label>
+          <DatePicker
+            selected={formData.start}
+            onChange={(date) => handleDateChange(date as Date, "start")}
+            showTimeSelect
+            dateFormat="Pp"
             id="start"
-            name="start"
-            value={formData.start}
-            onChange={handleInputChange}
           />
 
-          <label htmlFor="date">End:</label>
-          <input
-            type="datetime-local"
+          <label htmlFor="end">End:</label>
+          <DatePicker
+            selected={formData.end}
+            onChange={(date) => handleDateChange(date as Date, "end")}
+            showTimeSelect
+            dateFormat="Pp"
             id="end"
-            name="end"
-            value={formData.end}
-            onChange={handleInputChange}
           />
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isPending}>
+          {isPending ? "Updating..." : "Submit"}
+        </button>
       </form>
     </div>
   );

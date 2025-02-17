@@ -1,32 +1,24 @@
 import axios from "axios";
+import { useAuth } from "react-oidc-context";
 
-// Function to get a cookie by name
-const jwt =
-  document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("jwt="))
-    ?.split("=")[1] || null;
+const useApi = () => {
+  const auth = useAuth();
 
-// Create the Axios instance
-const api = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
-});
+  const api = axios.create({
+    baseURL: import.meta.env.VITE_BASE_URL,
+  });
 
-// Add a request interceptor
-api.interceptors.request.use(
-  (config) => {
-    // Get JWT from cookies
-
-    // If JWT exists, add it to the Authorization header
-    if (jwt) {
-      config.headers["Authorization"] = `Bearer ${jwt}`;
+  api.interceptors.request.use(
+    (config) => {
+      config.headers["Authorization"] = `Bearer ${auth.user?.id_token}`;
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
+  );
 
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+  return api;
+};
 
-export default api;
+export default useApi;
