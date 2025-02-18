@@ -8,28 +8,36 @@ import { theme } from "../../styles/theme";
 import { GenericModal } from "../GenericModal/GenericModal";
 import { useEffect, useState } from "react";
 import { useCreateEvent } from "../../hooks/useCreateEvent";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
+import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
 
 interface CreateEventModalProps {
   startDate: Date | null;
   onClose: () => void;
 }
 
+interface FormData {
+  title: string;
+  start: Dayjs;
+  end: Dayjs | null;
+}
+
 export const CreateEventModal = ({
   startDate,
   onClose,
 }: CreateEventModalProps) => {
-  const [formData, setFormData] = useState({
+
+  const [formData, setFormData] = useState<FormData>({
     title: "",
-    start: startDate ? dayjs(startDate) : dayjs(), // Make sure it's a Dayjs object
-    end: dayjs(),
+    start: startDate ? dayjs(startDate) : dayjs(),
+    end: null,
   });
 
   useEffect(() => {
     if (startDate) {
       setFormData((prev) => ({
         ...prev,
-        start: dayjs(startDate), // Ensure start is always a Dayjs object
+        start: dayjs(startDate),
       }));
     }
   }, [startDate]);
@@ -45,7 +53,7 @@ export const CreateEventModal = ({
   const handleDateChange = (date: any, name: string) => {
     setFormData({
       ...formData,
-      [name]: date, // dayjs object
+      [name]: dayjs(date),
     });
   };
 
@@ -71,14 +79,17 @@ export const CreateEventModal = ({
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+
     const startUnix = formData.start.valueOf();
-    const endUnix = formData.end.valueOf();
-    console.log(formData.title, startDate, endUnix)
+    const endUnix = formData.end?.valueOf() ?? 0;
+    console.log(formData.title, startUnix, endUnix);
+
     handleCreateEvent(formData.title, startUnix, endUnix);
   };
 
   return (
     <GenericModal closer={onClose} title="Criar Evento">
+      {!isPending ?
       <Form onSubmit={handleSubmit}>
         <Input
           placeholder="Descrição"
@@ -87,7 +98,7 @@ export const CreateEventModal = ({
           id="title"
           name="title"
           value={formData.title}
-        />
+          />
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
           <DateTimePicker
             value={formData.start}
@@ -95,7 +106,7 @@ export const CreateEventModal = ({
             className="form-control"
             name="start"
             sx={dateTimePickerStyles}
-          />
+            />
           <DateTimePicker
             value={formData.end}
             onChange={(date) => handleDateChange(date, "end")}
@@ -103,7 +114,7 @@ export const CreateEventModal = ({
             name="end"
             label="Data final"
             sx={dateTimePickerStyles}
-          />
+            />
         </LocalizationProvider>
         <Button
           type="submit"
@@ -113,10 +124,11 @@ export const CreateEventModal = ({
           hoverTextColor={theme.colors.primary}
           hoverBorder={`1px solid ${theme.colors.green}`}
           disabled={isPending}
-        >
+          >
           Criar
         </Button>
       </Form>
+      : <LoadingSpinner />}
     </GenericModal>
   );
 };
