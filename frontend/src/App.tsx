@@ -1,4 +1,10 @@
+import { Dashboard } from "./pages/Dashboard";
+
 function App() {
-  return <div>hello</div>;
+  return (
+    <div>
+      <Dashboard />
+    </div>
+  );
 }
 export default App;

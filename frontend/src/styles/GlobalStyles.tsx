@@ -21,4 +21,8 @@ export const GlobalStyles = createGlobalStyle`
     text-decoration: none;
     color: inherit;
   }
+
+  button {
+    font-family: ${({ theme }) => theme.fonts.main};
+  }
 `;
