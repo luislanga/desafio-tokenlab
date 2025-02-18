@@ -55,7 +55,7 @@ const Calendar = () => {
         <BigCalendar
           localizer={localizer}
           events={events}
-          style={{ height: 500 }}
+          style={{ height: "80vh" }}
           views={["month", "week", "day"]}
           onSelectSlot={handleOpenCreateEventModal}
           onSelectEvent={handleOpenDeleteEventModal}

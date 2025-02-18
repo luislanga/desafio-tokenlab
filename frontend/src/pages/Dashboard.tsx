@@ -20,7 +20,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+    <div >
       <Calendar />
       <div>
         <h2>Authenticated</h2>
