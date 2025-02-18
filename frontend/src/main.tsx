@@ -11,7 +11,7 @@ import { GlobalStyles } from "./styles/GlobalStyles.tsx";
 
 import App from "./App.tsx";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

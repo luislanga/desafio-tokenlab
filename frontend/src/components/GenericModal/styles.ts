@@ -11,6 +11,12 @@ export const Container = styled.div`
     background-color: ${({ theme }) => theme.colors.primary};
     width: fit-content;
     gap: 20px;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
 `;
 
 export const Form = styled.form`
