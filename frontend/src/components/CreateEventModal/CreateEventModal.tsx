@@ -1,43 +1,35 @@
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { Form, Input } from "./styles";
-import { dateTimePickerStyles } from "./mui-styles";
-import { Button } from "../Button/Button";
-import { theme } from "../../styles/theme";
-import { GenericModal } from "../GenericModal/GenericModal";
 import { useEffect, useState } from "react";
+import { registerLocale } from "react-datepicker";
 import { useCreateEvent } from "../../hooks/useCreateEvent";
-import dayjs, { Dayjs } from "dayjs";
+import { GenericModal } from "../GenericModal/GenericModal";
+import { CustomDatePicker, Form, Input } from "./styles";
+import { Button } from "../Button/Button";
 import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
+import 'react-datepicker/dist/react-datepicker.css'
+import ptBR from "date-fns/locale/pt-BR";
+
+registerLocale("pt-BR", ptBR);
 
 interface CreateEventModalProps {
   startDate: Date | null;
   onClose: () => void;
 }
 
-interface FormData {
-  title: string;
-  start: Dayjs;
-  end: Dayjs | null;
-}
-
 export const CreateEventModal = ({
   startDate,
   onClose,
 }: CreateEventModalProps) => {
-
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState({
     title: "",
-    start: startDate ? dayjs(startDate) : dayjs(),
-    end: null,
+    start: startDate || new Date(),
+    end: new Date(),
   });
 
   useEffect(() => {
     if (startDate) {
       setFormData((prev) => ({
         ...prev,
-        start: dayjs(startDate),
+        start: startDate,
       }));
     }
   }, [startDate]);
@@ -50,11 +42,18 @@ export const CreateEventModal = ({
     });
   };
 
-  const handleDateChange = (date: any, name: string) => {
+  const handleDateChange = (date: Date, name: string) => {
     setFormData({
       ...formData,
-      [name]: dayjs(date),
+      [name]: date,
     });
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    const startUnix = formData.start.getTime();
+    const endUnix = formData.end.getTime();
+    handleCreateEvent(formData.title, startUnix, endUnix);
   };
 
   const { mutateAsync: createEventFn, isPending } = useCreateEvent();
@@ -77,58 +76,43 @@ export const CreateEventModal = ({
     }
   };
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-
-    const startUnix = formData.start.valueOf();
-    const endUnix = formData.end?.valueOf() ?? 0;
-    console.log(formData.title, startUnix, endUnix);
-
-    handleCreateEvent(formData.title, startUnix, endUnix);
-  };
-
   return (
-    <GenericModal closer={onClose} title="Criar Evento">
-      {!isPending ?
-      <Form onSubmit={handleSubmit}>
-        <Input
-          placeholder="Descrição"
-          onChange={handleInputChange}
-          type="text"
-          id="title"
-          name="title"
-          value={formData.title}
+    <GenericModal title="Criar Evento" closer={onClose}>
+      {!isPending ? (
+        <Form onSubmit={handleSubmit}>
+          <Input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleInputChange}
+            placeholder="Descrição"
           />
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
-          <DateTimePicker
-            value={formData.start}
+
+          <CustomDatePicker
+            timeIntervals={5}
+            selected={formData.start}
             onChange={(date) => handleDateChange(date, "start")}
-            className="form-control"
-            name="start"
-            sx={dateTimePickerStyles}
-            />
-          <DateTimePicker
-            value={formData.end}
+            showTimeSelect
+            dateFormat="Pp"
+            id="start"
+            locale="pt-BR"
+          />
+
+          <CustomDatePicker
+            selected={formData.end}
             onChange={(date) => handleDateChange(date, "end")}
-            className="form-control"
-            name="end"
-            label="Data final"
-            sx={dateTimePickerStyles}
-            />
-        </LocalizationProvider>
-        <Button
-          type="submit"
-          textColor={theme.colors.primary}
-          bgColor={theme.colors.secondary}
-          hoverBgColor={theme.colors.green}
-          hoverTextColor={theme.colors.primary}
-          hoverBorder={`1px solid ${theme.colors.green}`}
-          disabled={isPending}
-          >
-          Criar
-        </Button>
-      </Form>
-      : <LoadingSpinner />}
+            showTimeSelect
+            dateFormat="Pp"
+            id="end"
+          />
+          <Button type="submit" disabled={isPending}>
+            Criar
+          </Button>
+        </Form>
+      ) : (
+        <LoadingSpinner />
+      )}
     </GenericModal>
   );
 };

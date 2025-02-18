@@ -1,4 +1,8 @@
 import styled from "styled-components";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+
 
 export const Container = styled.div`
     display: flex;
@@ -41,4 +45,27 @@ export const ModalHeader = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 100%;
+`;
+
+
+export const CustomDatePicker = styled(DatePicker)`
+ 
+ padding: 10px;
+    border: none;
+    border-radius: 12px;
+    background-color: ${({ theme }) => theme.colors.input_bg};
+    width: 100%;
+    height: 54px;
+    border: 1px solid ${({ theme }) => theme.colors.secondary};
+
+    &::placeholder {
+        color: ${({ theme }) => theme.colors.secondary};
+        font-family: ${({ theme }) => theme.fonts.main};
+        font-size: 14px;
+        font-weight: 400;
+    }
+    &:focus {
+        outline: none;
+
+    }
 `;

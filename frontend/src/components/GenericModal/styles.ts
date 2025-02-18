@@ -5,18 +5,19 @@ export const Container = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: start;
-    padding: 20px;
+    padding: 36px;
     border: none;
     border-radius: 18px;
     background-color: ${({ theme }) => theme.colors.primary};
     width: fit-content;
     gap: 20px;
+    width: 500px;
 
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index:4
+    z-index:9999
 `;
 
 export const Form = styled.form`
