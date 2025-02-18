@@ -1,15 +1,19 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App.tsx";
+import ThemeWrapper from "./styles/ThemeWrapper.tsx";
+import { GlobalStyles } from "./styles/GlobalStyles.tsx";
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
+    <ThemeWrapper>
+      <GlobalStyles />
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </ThemeWrapper>
   </StrictMode>
 );

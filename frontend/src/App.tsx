@@ -1,12 +1,4 @@
-import Calendar from "./components/Calendar"
-import EventList from "./components/EventList"
-
 function App() {
-  return (
-    <div>
-      <Calendar />
-      <EventList />
-    </div>
-  )
+  return <div>hello</div>;
 }
-export default App
+export default App;
