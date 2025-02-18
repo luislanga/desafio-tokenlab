@@ -14,7 +14,7 @@ export const Auth = () => {
 
   return (
     <>
-      <button onClick={() => auth.signinRedirect()}>Sign in</button>
+      <Button onClick={() => auth.signinRedirect()}>Entrar</Button>
     </>
   );
 };

@@ -39,6 +39,7 @@ export const Button = ({
       border={border}
       hoverBorder={hoverBorder}
       disabled={disabled}
+      onClick={onClick}
       {...props}
     >
       {children}
