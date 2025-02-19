@@ -7,8 +7,10 @@ import { Button } from "../Button/Button";
 import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
 import "react-datepicker/dist/react-datepicker.css";
 import ptBR from "date-fns/locale/pt-BR";
-import Joi from "joi";
+
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
+import { createEventValidationSchema } from "./createEventValidationSchema";
+import { handleCreateEvent } from "./handleCreateEvent";
 
 registerLocale("pt-BR", ptBR);
 
@@ -16,19 +18,6 @@ interface CreateEventModalProps {
   startDate: Date | null;
   onClose: () => void;
 }
-
-const createEventValidationSchema = Joi.object({
-  title: Joi.string().required().messages({
-    "string.empty": "Descrição obrigatória",
-  }),
-  start: Joi.date().iso().required().messages({
-    "date.base": "Data de início é inválida",
-  }),
-  end: Joi.date().iso().greater(Joi.ref("start")).required().messages({
-    "date.base": "Data de término é inválida",
-    "date.greater": "Data de término deve ser após a data de início",
-  }),
-});
 
 export const CreateEventModal = ({
   startDate,
@@ -39,7 +28,10 @@ export const CreateEventModal = ({
     start: startDate || new Date(),
     end: null as Date | null,
   });
+  const [errors, setErrors] = useState<any>({});
+  const { mutateAsync: createEventFn, isPending } = useCreateEvent();
 
+  // REMOVE THIS WHEN UPDATE MODAL TO CLOSE WHEN CLICKING OUTSIDE THE MODAL
   useEffect(() => {
     if (startDate) {
       setFormData((prev) => ({
@@ -64,33 +56,11 @@ export const CreateEventModal = ({
     });
   };
 
-  const { mutateAsync: createEventFn, isPending } = useCreateEvent();
-
-  const handleCreateEvent = async (
-    title: string,
-    startUnix: number,
-    endUnix: number
-  ) => {
-    try {
-      await createEventFn({
-        title,
-        start: String(startUnix),
-        end: String(endUnix),
-      });
-      alert("Evento criado com sucesso!");
-      onClose();
-    } catch (error) {
-      alert("Erro ao criar evento.");
-    }
-  };
-
-  const [errors, setErrors] = useState<any>({});
-
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
     const { error } = createEventValidationSchema.validate(formData, {
-      abortEarly: false,
+      abortEarly: false, // all invalid fields before returning
     });
 
     if (error) {
@@ -102,11 +72,23 @@ export const CreateEventModal = ({
     } else {
       if (formData.end === null) {
         const endUnix = new Date().getTime();
-        handleCreateEvent(formData.title, formData.start.getTime(), endUnix);
+        handleCreateEvent(
+          formData.title,
+          formData.start.getTime(),
+          endUnix,
+          onClose,
+          createEventFn
+        );
       } else {
         const startUnix = formData.start.getTime();
         const endUnix = formData.end.getTime();
-        handleCreateEvent(formData.title, startUnix, endUnix);
+        handleCreateEvent(
+          formData.title,
+          startUnix,
+          endUnix,
+          onClose,
+          createEventFn
+        );
       }
     }
   };
