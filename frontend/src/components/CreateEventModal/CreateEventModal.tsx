@@ -1,8 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState, useRef } from "react";
 import { registerLocale } from "react-datepicker";
 import { useCreateEvent } from "../../hooks/useCreateEvent";
 import { GenericModal } from "../GenericModal/GenericModal";
-import { CustomDatePicker, Form, Input } from "./styles";
+import {
+  Container,
+  CustomDatePicker,
+  Form,
+  Input,
+} from "./styles";
 import { Button } from "../Button/Button";
 import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
 import "react-datepicker/dist/react-datepicker.css";
@@ -30,16 +35,7 @@ export const CreateEventModal = ({
   });
   const [errors, setErrors] = useState<any>({});
   const { mutateAsync: createEventFn, isPending } = useCreateEvent();
-
-  // REMOVE THIS WHEN UPDATE MODAL TO CLOSE WHEN CLICKING OUTSIDE THE MODAL
-  useEffect(() => {
-    if (startDate) {
-      setFormData((prev) => ({
-        ...prev,
-        start: startDate,
-      }));
-    }
-  }, [startDate]);
+  const formRef = useRef<HTMLFormElement | null>(null);
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -96,51 +92,54 @@ export const CreateEventModal = ({
   return (
     <GenericModal title="Criar Evento" closer={onClose}>
       {!isPending ? (
-        <Form onSubmit={handleSubmit}>
-          <Input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleInputChange}
-            placeholder="Descrição"
-          />
-          {errors.title && (
-            <ErrorMessage className="error">{errors.title}</ErrorMessage>
-          )}
+        <Container>
+          <Form ref={formRef}>
+            <Input
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
+              placeholder="Descrição"
+            />
+            {errors.title && (
+              <ErrorMessage className="error">{errors.title}</ErrorMessage>
+            )}
 
-          <CustomDatePicker
-            timeIntervals={5}
-            selected={formData.start}
-            onChange={(date: any) => handleDateChange(date, "start")}
-            showTimeSelect
-            dateFormat="Pp"
-            id="start"
-            placeholderText="Início"
-            locale="pt-BR"
-          />
-          {errors.start && (
-            <ErrorMessage className="error">{errors.start}</ErrorMessage>
-          )}
+            <CustomDatePicker
+              timeIntervals={5}
+              selected={formData.start}
+              onChange={(date: any) => handleDateChange(date, "start")}
+              showTimeSelect
+              dateFormat="Pp"
+              id="start"
+              placeholderText="Início"
+              locale="pt-BR"
+            />
+            {errors.start && (
+              <ErrorMessage className="error">{errors.start}</ErrorMessage>
+            )}
 
-          <CustomDatePicker
-            selected={formData.end}
-            onChange={(date: any) => handleDateChange(date, "end")}
-            showTimeSelect
-            dateFormat="Pp"
-            id="end"
-            placeholderText="Término"
-            locale="pt-BR"
-          />
-          {errors.end && (
-            <ErrorMessage className="error">{errors.end}</ErrorMessage>
-          )}
-          <Button type="submit" disabled={isPending}>
+            <CustomDatePicker
+              selected={formData.end}
+              onChange={(date: any) => handleDateChange(date, "end")}
+              showTimeSelect
+              dateFormat="Pp"
+              id="end"
+              placeholderText="Término"
+              locale="pt-BR"
+            />
+            {errors.end && (
+              <ErrorMessage className="error">{errors.end}</ErrorMessage>
+            )}
+          </Form>
+
+          <Button type="button" disabled={isPending} onClick={handleSubmit}>
             Criar
           </Button>
-        </Form>
+        </Container>
       ) : (
-        <LoadingSpinner color="dark"/>
+        <LoadingSpinner color="dark" />
       )}
     </GenericModal>
   );

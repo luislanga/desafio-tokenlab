@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { registerLocale } from "react-datepicker";
 import { GenericModal } from "../GenericModal/GenericModal";
-import { CustomDatePicker, Form, Input } from "./styles";
+import {
+  ButtonWrapper,
+  Container,
+  CustomDatePicker,
+  Form,
+  Input,
+} from "./styles";
 import { Button } from "../Button/Button";
 import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
 import "react-datepicker/dist/react-datepicker.css";
@@ -41,16 +47,6 @@ export const UpdateEventModal = ({
     useDeleteEvent();
   const { mutateAsync: updateEventFn, isPending: isUpdatePending } =
     useUpdateEvent();
-
-  // REMOVE AFTER MODAL UPDATE
-  useEffect(() => {
-    if (startDate) {
-      setFormData((prev) => ({
-        ...prev,
-        start: new Date(startDate),
-      }));
-    }
-  }, [startDate]);
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -107,8 +103,8 @@ export const UpdateEventModal = ({
   return (
     <GenericModal title="Atualizar Evento" closer={onClose}>
       {!isUpdatePending && !isDeletePending ? (
-        <>
-          <Form onSubmit={handleSubmit}>
+        <Container>
+          <Form>
             <Input
               type="text"
               id="title"
@@ -143,27 +139,28 @@ export const UpdateEventModal = ({
             />
 
             {errors.end && <ErrorMessage>{errors.end}</ErrorMessage>}
-
-            <Button type="submit" disabled={isUpdatePending}>
+          </Form>
+          <ButtonWrapper>
+            <Button disabled={isUpdatePending} onClick={handleSubmit}>
               Atualizar
             </Button>
-          </Form>
-          <Button
-            $bgColor={theme.colors.red}
-            $border={`1px solid ${theme.colors.red}`}
-            $hoverBorder={`1px solid ${theme.colors.red}`}
-            $hoverBgColor="transparent"
-            $textColor="white"
-            $hoverTextColor={theme.colors.red}
-            onClick={() => {
-              handleDeleteEvent(calendarEventId);
-            }}
-          >
-            Excluir Evento
-          </Button>
-        </>
+            <Button
+              $bgColor={theme.colors.red}
+              $border={`1px solid ${theme.colors.red}`}
+              $hoverBorder={`1px solid ${theme.colors.red}`}
+              $hoverBgColor="transparent"
+              $textColor="white"
+              $hoverTextColor={theme.colors.red}
+              onClick={() => {
+                handleDeleteEvent(calendarEventId);
+              }}
+            >
+              Excluir
+            </Button>
+          </ButtonWrapper>
+        </Container>
       ) : (
-        <LoadingSpinner color="dark"/>
+        <LoadingSpinner color="dark" />
       )}
     </GenericModal>
   );
