@@ -10,6 +10,8 @@ import {
 } from "./styles";
 
 export const Header = () => {
+
+  // move auth flow to another file
   const signOutRedirect = () => {
     const clientId = "360ao3a7d50qe9u2lo998o8ljf";
     const logoutUri = "http://localhost:5173/auth";
