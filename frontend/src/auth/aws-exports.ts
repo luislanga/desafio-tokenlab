@@ -1,9 +1,3 @@
-
-
-
-  // PUT IN ENV LATER
-
-
   export default {
     authority: import.meta.env.VITE_COGNITO_AUTHORITY,
     client_id: import.meta.env.VITE_COGNITO_CLIENT_ID,
