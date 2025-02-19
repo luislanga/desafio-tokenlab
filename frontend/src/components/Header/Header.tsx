@@ -8,38 +8,25 @@ import {
   Navigation,
   Username,
 } from "./styles";
+import { handleSignOut } from "../../auth/handleSignout";
 
 export const Header = () => {
-
-  // move auth flow to another file
-  const signOutRedirect = () => {
-    const clientId = "360ao3a7d50qe9u2lo998o8ljf";
-    const logoutUri = "http://localhost:5173/auth";
-    const cognitoDomain =
-      "https://tokenlab-calendar.auth.us-east-1.amazoncognito.com";
-    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(
-      logoutUri
-    )}`;
-  };
-
   const auth = useAuth();
+  const username = String(auth.user?.profile["cognito:username"]);
 
-  const handleSignOut = () => {
-    auth.removeUser();
-    signOutRedirect();
-  };
   return (
     <HeaderBg>
       <WidthContainer>
         <HeaderWrapper>
           <Logo>tokenlab-calendar</Logo>
           <Navigation>
-            <Username>{String(auth.user?.profile["cognito:username"])}</Username>
-            <LogoutButton onClick={handleSignOut}>Sair</LogoutButton>
+            <Username>{username}</Username>
+            <LogoutButton onClick={() => handleSignOut(auth)}>
+              Sair
+            </LogoutButton>
           </Navigation>
         </HeaderWrapper>
       </WidthContainer>
     </HeaderBg>
   );
 };
-
