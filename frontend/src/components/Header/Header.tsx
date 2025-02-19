@@ -32,7 +32,7 @@ export const Header = () => {
         <HeaderWrapper>
           <Logo>tokenlab-calendar</Logo>
           <Navigation>
-            <Username>username</Username>
+            <Username>{String(auth.user?.profile["cognito:username"])}</Username>
             <LogoutButton onClick={handleSignOut}>Sair</LogoutButton>
           </Navigation>
         </HeaderWrapper>
@@ -41,4 +41,3 @@ export const Header = () => {
   );
 };
 
-export default Header;
