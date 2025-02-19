@@ -1,4 +1,5 @@
 import { useToast } from "../../hooks/useToast";
+import { errorMessages, successMessages } from "../../responses/responseMessages";
 
 export const handleUpdateEvent = async (
   title: string,
@@ -20,10 +21,14 @@ export const handleUpdateEvent = async (
       end: String(endUnix),
       calendarEventId,
     };
-    await updateEventFn(eventData);
-    useToast("Evento atualizado com sucesso!", "success");
+    const response: any = await updateEventFn(eventData);
+    const successCode = response?.message
+    const successMessage = successMessages[successCode] || "Evento atualizado com sucesso!";
+    useToast(successMessage, "success");
     onClose();
-  } catch (error) {
-    useToast("Erro ao criar evento.", "error");
+  } catch (error: any) {
+    const errorCode = error.response?.data?.message
+    const errorMessage = errorMessages[errorCode] || "Erro ao atualizar evento."
+    useToast(errorMessage, "error");
   }
 };

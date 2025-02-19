@@ -1,3 +1,4 @@
+import { errorMessages, successMessages } from "../../responses/responseMessages";
 import { useToast } from "../../hooks/useToast";
 
 export const handleCreateEvent = async (
@@ -12,14 +13,18 @@ export const handleCreateEvent = async (
   }) => Promise<void>
 ) => {
   try {
-    await createEventFn({
+    const response: any = await createEventFn({
       title,
       start: String(startUnix),
       end: String(endUnix),
     });
-    useToast("Evento criado com sucesso!", "success");
+    const successCode = response?.message
+    const successMessage = successMessages[successCode] || "Evento criado com sucesso!";
+    useToast(successMessage, "success");
     onClose();
-  } catch (error) {
-    useToast("Erro ao criar evento.", "error");
+  } catch (error: any) {
+    const errorCode = error.response?.data?.message
+    const errorMessage = errorMessages[errorCode] || "Erro ao criar evento."
+    useToast(errorMessage, "error");
   }
 };
