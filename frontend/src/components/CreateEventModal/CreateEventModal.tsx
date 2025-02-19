@@ -19,14 +19,14 @@ interface CreateEventModalProps {
 
 const createEventValidationSchema = Joi.object({
   title: Joi.string().required().messages({
-    "string.empty": "Título é obrigatório",
+    "string.empty": "Descrição obrigatória",
   }),
   start: Joi.date().iso().required().messages({
     "date.base": "Data de início é inválida",
   }),
   end: Joi.date().iso().greater(Joi.ref("start")).required().messages({
     "date.base": "Data de término é inválida",
-    "date.greater": "Data de término deve ser maior que a data de início",
+    "date.greater": "Data de término deve ser após a data de início",
   }),
 });
 
@@ -89,7 +89,9 @@ export const CreateEventModal = ({
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    const { error } = createEventValidationSchema.validate(formData, { abortEarly: false });
+    const { error } = createEventValidationSchema.validate(formData, {
+      abortEarly: false,
+    });
 
     if (error) {
       const newErrors: any = {};
@@ -121,7 +123,9 @@ export const CreateEventModal = ({
             onChange={handleInputChange}
             placeholder="Descrição"
           />
-          {errors.title && <ErrorMessage className="error">{errors.title}</ErrorMessage>}
+          {errors.title && (
+            <ErrorMessage className="error">{errors.title}</ErrorMessage>
+          )}
 
           <CustomDatePicker
             timeIntervals={5}
@@ -133,7 +137,9 @@ export const CreateEventModal = ({
             placeholderText="Início"
             locale="pt-BR"
           />
-           {errors.start && <ErrorMessage className="error">{errors.start}</ErrorMessage>}
+          {errors.start && (
+            <ErrorMessage className="error">{errors.start}</ErrorMessage>
+          )}
 
           <CustomDatePicker
             selected={formData.end}
@@ -144,7 +150,9 @@ export const CreateEventModal = ({
             placeholderText="Término"
             locale="pt-BR"
           />
-          {errors.end && <ErrorMessage className="error">{errors.end}</ErrorMessage>}
+          {errors.end && (
+            <ErrorMessage className="error">{errors.end}</ErrorMessage>
+          )}
           <Button type="submit" disabled={isPending}>
             Criar
           </Button>
