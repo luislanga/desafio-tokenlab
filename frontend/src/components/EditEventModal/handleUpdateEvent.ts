@@ -1,3 +1,5 @@
+import { useToast } from "../../hooks/useToast";
+
 export const handleUpdateEvent = async (
   title: string,
   startUnix: number,
@@ -19,9 +21,9 @@ export const handleUpdateEvent = async (
       calendarEventId,
     };
     await updateEventFn(eventData);
-    alert("Evento atualizado com sucesso!");
+    useToast("Evento atualizado com sucesso!", "success");
     onClose();
   } catch (error) {
-    alert("Erro ao atualizar evento.");
+    useToast("Erro ao criar evento.", "error");
   }
 };

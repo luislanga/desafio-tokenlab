@@ -18,6 +18,7 @@ import { useDeleteEvent } from "../../hooks/useDeleteEvent";
 import { eventValidationSchema } from "../../validation/eventValidationSchema";
 import { handleUpdateEvent } from "./handleUpdateEvent";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
+import { useToast } from "../../hooks/useToast";
 
 registerLocale("pt-BR", ptBR);
 
@@ -93,10 +94,10 @@ export const UpdateEventModal = ({
   const handleDeleteEvent = async (calendarEventId: string) => {
     try {
       await deleteEventFn(calendarEventId);
-      alert("Evento excluido com sucesso!");
+      useToast("Evento excluído com sucesso!", "success");
       onClose();
     } catch (error) {
-      alert("Erro ao excluir evento.");
+      useToast("Erro ao excluir evento.", "error");
     }
   };
 

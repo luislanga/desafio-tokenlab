@@ -10,6 +10,7 @@ import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Auth } from "./pages/Auth/Auth";
 import { LoadingSpinner } from "./components/LoadingSpinner/LoadingSpinner";
 
+
 const App = () => {
   const auth = useAuth();
 

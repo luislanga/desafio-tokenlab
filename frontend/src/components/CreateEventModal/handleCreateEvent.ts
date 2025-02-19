@@ -1,3 +1,5 @@
+import { useToast } from "../../hooks/useToast";
+
 export const handleCreateEvent = async (
   title: string,
   startUnix: number,
@@ -15,9 +17,9 @@ export const handleCreateEvent = async (
       start: String(startUnix),
       end: String(endUnix),
     });
-    alert("Evento criado com sucesso!");
+    useToast("Evento criado com sucesso!", "success");
     onClose();
   } catch (error) {
-    alert("Erro ao criar evento.");
+    useToast("Erro ao criar evento.", "error");
   }
 };
