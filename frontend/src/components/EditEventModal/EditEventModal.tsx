@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { registerLocale } from "react-datepicker";
 import { GenericModal } from "../GenericModal/GenericModal";
 import {
