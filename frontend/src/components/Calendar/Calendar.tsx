@@ -5,6 +5,7 @@ import { useFetchEvents } from "../../hooks/useFetchEvents";
 import { useState } from "react";
 import { CreateEventModal } from "../CreateEventModal/CreateEventModal";
 import { UpdateEventModal } from "../EditEventModal/EditEventModal";
+import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
 
 const localizer = momentLocalizer(moment);
 
@@ -27,7 +28,7 @@ export const Calendar = () => {
 
   const { data: events, isLoading, error } = useFetchEvents();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner color="light"/>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (

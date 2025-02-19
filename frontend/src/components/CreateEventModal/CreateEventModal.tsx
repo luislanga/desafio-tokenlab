@@ -140,7 +140,7 @@ export const CreateEventModal = ({
           </Button>
         </Form>
       ) : (
-        <LoadingSpinner />
+        <LoadingSpinner color="dark"/>
       )}
     </GenericModal>
   );

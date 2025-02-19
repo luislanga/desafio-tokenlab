@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Auth } from "./pages/Auth/Auth";
+import { LoadingSpinner } from "./components/LoadingSpinner/LoadingSpinner";
 
 const App = () => {
   const auth = useAuth();
@@ -22,7 +23,7 @@ const App = () => {
   }, [auth.isAuthenticated]);
 
   if (auth.isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner color="light" />;
   }
 
   if (auth.error) {

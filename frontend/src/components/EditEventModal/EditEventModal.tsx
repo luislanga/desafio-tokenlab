@@ -163,7 +163,7 @@ export const UpdateEventModal = ({
           </Button>
         </>
       ) : (
-        <LoadingSpinner />
+        <LoadingSpinner color="dark"/>
       )}
     </GenericModal>
   );
