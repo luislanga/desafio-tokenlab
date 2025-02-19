@@ -48,7 +48,7 @@ export const ModalHeader = styled.div`
 `;
 
 
-export const CustomDatePicker = styled(DatePicker)`
+export const CustomDatePicker = styled(DatePicker)<any>`
  
  padding: 10px;
     border: none;

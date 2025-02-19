@@ -118,7 +118,7 @@ export const UpdateEventModal = ({
             <CustomDatePicker
               timeIntervals={5}
               selected={formData.start}
-              onChange={(date) => handleDateChange(date, "start")}
+              onChange={(date: Date) => handleDateChange(date, "start")}
               showTimeSelect
               dateFormat="Pp"
               id="start"
@@ -128,7 +128,7 @@ export const UpdateEventModal = ({
 
             <CustomDatePicker
               selected={formData.end}
-              onChange={(date) => handleDateChange(date, "end")}
+              onChange={(date: Date) => handleDateChange(date, "end")}
               showTimeSelect
               dateFormat="Pp"
               id="end"
