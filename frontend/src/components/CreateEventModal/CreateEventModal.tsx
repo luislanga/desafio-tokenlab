@@ -9,8 +9,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import ptBR from "date-fns/locale/pt-BR";
 
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
-import { createEventValidationSchema } from "./createEventValidationSchema";
 import { handleCreateEvent } from "./handleCreateEvent";
+import { eventValidationSchema } from "../../validation/eventValidationSchema";
 
 registerLocale("pt-BR", ptBR);
 
@@ -59,7 +59,7 @@ export const CreateEventModal = ({
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    const { error } = createEventValidationSchema.validate(formData, {
+    const { error } = eventValidationSchema.validate(formData, {
       abortEarly: false, // all invalid fields before returning
     });
 

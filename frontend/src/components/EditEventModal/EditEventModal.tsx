@@ -9,6 +9,9 @@ import ptBR from "date-fns/locale/pt-BR";
 import { useUpdateEvent } from "../../hooks/useUpdateEvent";
 import { theme } from "../../styles/theme";
 import { useDeleteEvent } from "../../hooks/useDeleteEvent";
+import { eventValidationSchema } from "../../validation/eventValidationSchema";
+import { handleUpdateEvent } from "./handleUpdateEvent";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 
 registerLocale("pt-BR", ptBR);
 
@@ -33,6 +36,13 @@ export const UpdateEventModal = ({
     end: new Date(endDate),
   });
 
+  const [errors, setErrors] = useState<any>({});
+  const { mutateAsync: deleteEventFn, isPending: isDeletePending } =
+    useDeleteEvent();
+  const { mutateAsync: updateEventFn, isPending: isUpdatePending } =
+    useUpdateEvent();
+
+  // REMOVE AFTER MODAL UPDATE
   useEffect(() => {
     if (startDate) {
       setFormData((prev) => ({
@@ -59,37 +69,30 @@ export const UpdateEventModal = ({
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    const startUnix = formData.start.getTime();
-    const endUnix = formData.end.getTime();
-    handleUpdateEvent(formData.title, startUnix, endUnix, calendarEventId);
-  };
 
-  const { mutateAsync: updateEventFn, isPending: isUpdatePending } =
-    useUpdateEvent();
+    const { error } = eventValidationSchema.validate(formData, {
+      abortEarly: false, // check all invalid fields before returning
+    });
 
-  const handleUpdateEvent = async (
-    title: string,
-    startUnix: number,
-    endUnix: number,
-    calendarEventId: string
-  ) => {
-    try {
-      const eventData = {
-        title,
-        start: String(startUnix),
-        end: String(endUnix),
+    if (error) {
+      const newErrors: any = {};
+      error.details.forEach((err) => {
+        newErrors[err.path[0]] = err.message;
+      });
+      setErrors(newErrors);
+    } else {
+      const startUnix = formData.start.getTime();
+      const endUnix = formData.end.getTime();
+      handleUpdateEvent(
+        formData.title,
+        startUnix,
+        endUnix,
         calendarEventId,
-      };
-      await updateEventFn(eventData);
-      alert("Evento atualizado com sucesso!");
-      onClose();
-    } catch (error) {
-      alert("Erro ao atualizar evento.");
+        onClose,
+        updateEventFn
+      );
     }
   };
-
-  const { mutateAsync: deleteEventFn, isPending: isDeletePending } =
-    useDeleteEvent();
 
   const handleDeleteEvent = async (calendarEventId: string) => {
     try {
@@ -114,6 +117,7 @@ export const UpdateEventModal = ({
               onChange={handleInputChange}
               placeholder="Descrição"
             />
+            {errors.title && <ErrorMessage>{errors.title}</ErrorMessage>}
 
             <CustomDatePicker
               timeIntervals={5}
@@ -126,6 +130,8 @@ export const UpdateEventModal = ({
               locale="pt-BR"
             />
 
+            {errors.start && <ErrorMessage>{errors.start}</ErrorMessage>}
+
             <CustomDatePicker
               selected={formData.end}
               onChange={(date: Date) => handleDateChange(date, "end")}
@@ -135,6 +141,9 @@ export const UpdateEventModal = ({
               placeholderText="Término"
               locale="pt-BR"
             />
+
+            {errors.end && <ErrorMessage>{errors.end}</ErrorMessage>}
+
             <Button type="submit" disabled={isUpdatePending}>
               Atualizar
             </Button>

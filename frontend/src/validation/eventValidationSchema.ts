@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const createEventValidationSchema = Joi.object({
+export const eventValidationSchema = Joi.object({
   title: Joi.string().required().messages({
     "string.empty": "Descrição obrigatória",
   }),
