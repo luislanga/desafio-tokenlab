@@ -20,6 +20,15 @@ export const Logo = styled.div`
   align-items: center;
   justify-content: center;
   gap: 8px;
+
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 18px;
+  }
 `;
 
 export const Navigation = styled.nav`
