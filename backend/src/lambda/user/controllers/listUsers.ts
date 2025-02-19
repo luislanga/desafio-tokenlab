@@ -8,7 +8,7 @@ import { listUsersService } from "../services/listUsersService";
 const handlerFunction = async (event: any) => {
 
   const users = await listUsersService();
-  if (!users[0]) throw createHttpError(404, "No users found");
+  if (!users[0]) throw createHttpError(404, "NO_USERS_FOUND");
 
   return createResponse(200, users);
 };

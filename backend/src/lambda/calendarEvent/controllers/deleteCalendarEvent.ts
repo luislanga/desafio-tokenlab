@@ -14,12 +14,12 @@ export const handlerFunction = async (event: any) => {
     calendarEventId
   );
   if (!calendarEvent) {
-    throw createHttpError(404, "Event not found.");
+    throw createHttpError(404, "EVENT_NOT_FOUND");
   }
 
   await deleteCalendarEventService(userId, calendarEventId);
 
-  return createResponse(200, "Event deleted successfully.");
+  return createResponse(200, "EVENT_DELETED_SUCCESSFULLY");
 };
 
 export const handler = middy(handlerFunction).use(errorHandler());

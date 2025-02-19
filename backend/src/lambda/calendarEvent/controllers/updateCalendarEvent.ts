@@ -27,9 +27,7 @@ const handlerFunction = async (event: any) => {
   );
 
   if (!existingEvent) {
-    return createResponse(404, {
-      message: "Event not found",
-    });
+    return createHttpError(404, "EVENT_NOT_FOUND");
   }
 
   if (body.startDate || body.endDate) {
@@ -37,7 +35,7 @@ const handlerFunction = async (event: any) => {
     const endDate = body.endDate ?? existingEvent.endDate;
 
     if (startDate >= endDate) {
-      throw createHttpError(400, '"endDate" must be after "startDate".');
+      throw createHttpError(400, "END_DATE_MUST_BE_AFTER_STARTDATE");
     }
 
     // refactor this and in create event workflow:
@@ -68,7 +66,7 @@ const handlerFunction = async (event: any) => {
       );
 
       if (!isTimeRangeFree) {
-        throw createHttpError(400, "This time range is taken.");
+        throw createHttpError(400, "EVENT_TIME_RANGE_CONFLICT");
       }
     }
   }
@@ -86,8 +84,8 @@ const handlerFunction = async (event: any) => {
   );
 
   if (Object.keys(fieldsToUpdate).length === 0) {
-    return createResponse(304, {
-      message: "No changes detected",
+    return createResponse(200, {
+      message: "NO_CHANGES_DETECTED",
     });
   }
 
@@ -98,7 +96,7 @@ const handlerFunction = async (event: any) => {
   );
 
   return createResponse(200, {
-    message: "Event updated successfully",
+    message: "EVENT_UPDATED_SUCCESSFULLY",
     updatedEvent,
   });
 };

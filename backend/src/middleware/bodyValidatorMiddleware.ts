@@ -5,7 +5,7 @@ export const bodyValidatorMiddleware = (schema: Schema) => ({
   before: (handler: any, next: any) => {
     const { body } = handler.event;
     if (!body) {
-      throw createHttpError(400, "Empty body request");
+      throw createHttpError(400, "EMPTY_BODY");
     }
 
     const data = JSON.parse(body);

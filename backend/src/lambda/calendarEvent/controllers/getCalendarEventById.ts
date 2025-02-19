@@ -10,7 +10,7 @@ const handlerFunction = async (event: any) => {
   const calendarEvent = await getCalendarEventByIdService(userId, eventId);
 
   if (!calendarEvent) {
-    throw createHttpError(404, "Event not found.");
+    throw createHttpError(404, "EVENT_NOT_FOUND");
   }
 
   return createResponse(200, calendarEvent);

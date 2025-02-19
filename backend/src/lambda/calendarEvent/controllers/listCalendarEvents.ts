@@ -16,13 +16,13 @@ const handlerFunction = async (event: any) => {
     const end = Number(endDate);
 
     if (isNaN(start) || isNaN(end)) {
-      throw createHttpError(400, "Invalid date format");
+      throw createHttpError(400, "INVALID_DATE_FORMAT");
     }
 
     if (end < start) {
       throw createHttpError(
         400,
-        "endDate must be the same as or after startDate"
+        "END_DATE_MUST_BE_GREATER_THAN_START_DATE"
       );
     }
     const calendarEvents = await listCalendarEventsByDateService(

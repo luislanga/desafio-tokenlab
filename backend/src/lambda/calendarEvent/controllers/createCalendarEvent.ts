@@ -24,7 +24,7 @@ const handlerFunction = async (event: any) => {
   const newEventEnd = Number(body.endDate);
 
   if (newEventStart >= newEventEnd) {
-    throw createHttpError(400, '"endDate" must be after "startDate".');
+    throw createHttpError(400, "END_DATE_MUST_BE_AFTER_STARTDATE");
   }
 
   const eventsInRange = await listCalendarEventsByDateService(
@@ -48,7 +48,7 @@ const handlerFunction = async (event: any) => {
     );
 
     if (!isTimeRangeFree) {
-      throw createHttpError(400, "This time range is taken.");
+      throw createHttpError(400, "EVENT_TIME_RANGE_CONFLICT");
     }
   }
 
@@ -64,7 +64,7 @@ const handlerFunction = async (event: any) => {
   await createCalendarEventService(calendarEvent);
 
   return createResponse(201, {
-    message: "Event created successfully",
+    message: "EVENT_CREATED_SUCCESSFULLY",
     calendarEventId: calendarEvent.calendarEventId,
   });
 };
