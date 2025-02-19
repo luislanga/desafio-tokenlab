@@ -10,7 +10,6 @@ const fetchEvents = async (api: any) => {
     start: new Date(Number(event.startDate)),
     end: new Date(Number(event.endDate)),
   }));
-  console.log(events);
   return events;
 };
 
