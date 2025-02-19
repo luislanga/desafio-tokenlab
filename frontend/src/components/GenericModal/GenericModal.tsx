@@ -6,20 +6,24 @@ import { theme } from "../../styles/theme";
 interface GenericModalProps {
   title: string;
   children: React.ReactNode;
-  closer: any
+  closer: any;
 }
 
-export const GenericModal = ({ closer, title, children }: GenericModalProps) => {
+export const GenericModal = ({
+  closer,
+  title,
+  children,
+}: GenericModalProps) => {
   return (
     <Container>
       <ModalHeader>
         {title && <h2>{title}</h2>}
         <Button
-          noPadding
-          border="none"
-          hoverBorder="none"
-          hoverBgColor="transparent"
-          hoverTextColor={theme.colors.red}
+          $noPadding
+          $border="none"
+          $hoverBorder="none"
+          $hoverBgColor="transparent"
+          $hoverTextColor={theme.colors.red}
           onClick={closer}
         >
           <IoCloseOutline size={32} />

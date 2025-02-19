@@ -32,13 +32,13 @@ export const Button = ({
 
   return (
     <Container
-      textColor={buttonTextColor}
-      bgColor={bgColor}
-      hoverTextColor={hoverTextColor}
-      hoverBgColor={hoverBgColor}
-      border={border}
-      hoverBorder={hoverBorder}
-      disabled={disabled}
+      $textColor={buttonTextColor}
+      $bgColor={bgColor}
+      $hoverTextColor={hoverTextColor}
+      $hoverBgColor={hoverBgColor}
+      $border={border}
+      $hoverBorder={hoverBorder}
+      $disabled={disabled}
       onClick={onClick}
       {...props}
     >

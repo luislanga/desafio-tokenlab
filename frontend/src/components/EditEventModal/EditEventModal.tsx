@@ -140,12 +140,12 @@ export const UpdateEventModal = ({
             </Button>
           </Form>
           <Button
-            bgColor={theme.colors.red}
-            border={"1px solid " + theme.colors.red}
-            hoverBorder={"1px solid " + theme.colors.red}
-            hoverBgColor="transparent"
-            textColor="white"
-            hoverTextColor={theme.colors.red}
+            $bgColor={theme.colors.red}
+            $border={`1px solid ${theme.colors.red}`}
+            $hoverBorder={`1px solid ${theme.colors.red}`}
+            $hoverBgColor="transparent"
+            $textColor="white"
+            $hoverTextColor={theme.colors.red}
             onClick={() => {
               handleDeleteEvent(calendarEventId);
             }}
