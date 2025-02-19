@@ -16,6 +16,10 @@ export const Logo = styled.div`
   font-size: 24px;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.logo};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 `;
 
 export const Navigation = styled.nav`

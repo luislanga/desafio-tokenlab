@@ -9,6 +9,7 @@ import {
   Username,
 } from "./styles";
 import { handleSignOut } from "../../auth/handleSignout";
+import { BsCalendar2Week } from "react-icons/bs";
 
 export const Header = () => {
   const auth = useAuth();
@@ -18,7 +19,9 @@ export const Header = () => {
     <HeaderBg>
       <WidthContainer>
         <HeaderWrapper>
-          <Logo>tokenlab-calendar</Logo>
+          <Logo>
+            <BsCalendar2Week /> tokenlab-calendar
+          </Logo>
           <Navigation>
             <Username>{username}</Username>
             <LogoutButton onClick={() => handleSignOut(auth)}>
