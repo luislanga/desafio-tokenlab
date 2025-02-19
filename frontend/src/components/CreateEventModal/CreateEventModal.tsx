@@ -22,7 +22,7 @@ export const CreateEventModal = ({
   const [formData, setFormData] = useState({
     title: "",
     start: startDate || new Date(),
-    end: new Date(),
+    end: null,
   });
 
   useEffect(() => {
@@ -96,6 +96,7 @@ export const CreateEventModal = ({
             showTimeSelect
             dateFormat="Pp"
             id="start"
+            placeholderText="Início"
             locale="pt-BR"
           />
 
@@ -105,6 +106,8 @@ export const CreateEventModal = ({
             showTimeSelect
             dateFormat="Pp"
             id="end"
+            placeholderText="Término"
+            locale="pt-BR"
           />
           <Button type="submit" disabled={isPending}>
             Criar
