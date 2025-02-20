@@ -12,6 +12,7 @@ import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./override.css";
 import { CustomToolbar } from "./CustomToolbar";
+import { Container } from "./CalendarStyles";
 
 const localizer = momentLocalizer(moment);
 
@@ -57,7 +58,7 @@ export const Calendar = () => {
   };
 
   return (
-    <div>
+    <Container>
       <CustomToolbar
         onNavigate={handleNavigate}
         onView={setView}
@@ -93,6 +94,6 @@ export const Calendar = () => {
           onClose={() => setUpdateEventModalIsOpen(false)}
         />
       )}
-    </div>
+    </Container>
   );
 };
