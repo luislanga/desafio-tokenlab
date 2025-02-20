@@ -114,7 +114,6 @@ export const RightButton = styled.button`
 
 export const CustomSelector = styled.select`
   padding: 10px;
-  border: 1px solid ${({ theme }) => theme.colors.primary};
   border-radius: 12px;
   background-color: ${({ theme }) => theme.colors.secondary};
 
@@ -122,6 +121,10 @@ export const CustomSelector = styled.select`
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: 14px;
   font-weight: 400;
+
+  &:focus {
+    outline: none;
+  }
 
   @media (max-width: 768px) {
     font-size: 12px;
