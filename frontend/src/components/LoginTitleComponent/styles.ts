@@ -6,18 +6,18 @@ export const Container = styled.div`
     align-items: center;
     justify-content: center;
     gap: 128px;
-    font-size: 24px;
+
     font-weight: 500;
     color: ${({ theme }) => theme.colors.logo};
 
     @media (max-width: 768px) {
         gap: 108px;
-        font-size: 20px;
+
     }
 
     @media (max-width: 480px) {
         gap: 72px;
-        font-size: 18px;
+
     }
 `;
 
@@ -35,6 +35,6 @@ export const LogoContainer = styled.div`
 
     @media (max-width: 480px) {
         gap: 12px;
-        font-size: 36px;
+        font-size: 34px;
     }
 `;
