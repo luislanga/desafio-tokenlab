@@ -9,7 +9,7 @@ import {
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Auth } from "./pages/Auth/Auth";
 import { LoadingSpinner } from "./components/LoadingSpinner/LoadingSpinner";
-
+import { Container } from "./pages/Auth/styles";
 
 const App = () => {
   const auth = useAuth();
@@ -24,7 +24,11 @@ const App = () => {
   }, [auth.isAuthenticated]);
 
   if (auth.isLoading) {
-    return <LoadingSpinner color="light" />;
+    return (
+      <Container>
+        <LoadingSpinner color="light" />
+      </Container>
+    );
   }
 
   if (auth.error) {
