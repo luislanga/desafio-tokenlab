@@ -92,7 +92,7 @@ export const UpdateEventModal = ({
   };
 
   return (
-    <GenericModal title="Atualizar Evento" closer={onClose}>
+    <GenericModal title="Atualizar Evento" closer={onClose} isSubmitting={isUpdatePending || isDeletePending}>
       {!isUpdatePending && !isDeletePending ? (
         <Container>
           <Form>

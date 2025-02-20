@@ -7,16 +7,19 @@ interface GenericModalProps {
   title: string;
   children: React.ReactNode;
   closer: () => void;
+  isSubmitting?: boolean
 }
 
 export const GenericModal = ({
   closer,
   title,
   children,
+  isSubmitting = false
+  
 }: GenericModalProps) => {
   return (
     <>
-      <Overlay onClick={closer} />
+      <Overlay onClick={!isSubmitting ? closer : undefined} />
       <Container>
         <ModalHeader>
           {title && <h2>{title}</h2>}
@@ -27,6 +30,7 @@ export const GenericModal = ({
             $hoverBgColor="transparent"
             $hoverTextColor={theme.colors.red}
             onClick={closer}
+            disabled={isSubmitting}
           >
             <IoCloseOutline size={32} />
           </Button>

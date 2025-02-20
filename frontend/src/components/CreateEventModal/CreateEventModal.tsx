@@ -85,7 +85,11 @@ export const CreateEventModal = ({
   };
 
   return (
-    <GenericModal title="Criar Evento" closer={onClose}>
+    <GenericModal
+      title="Criar Evento"
+      closer={onClose}
+      isSubmitting={isPending}
+    >
       {!isPending ? (
         <Container>
           <Form ref={formRef}>
