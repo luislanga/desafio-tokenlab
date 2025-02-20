@@ -71,7 +71,6 @@ export class CognitoUserPoolConstruct extends Construct {
         cognito.UserPoolClientIdentityProvider.COGNITO,
       ],
       oAuth: {
-        // change this
         callbackUrls: ["http://localhost:5173/"],
         logoutUrls: ["http://localhost:5173/"],
         flows: {
