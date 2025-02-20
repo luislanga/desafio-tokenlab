@@ -33,7 +33,7 @@ body {
 
 .rbc-row-segment {
   display: flex;
-  padding-left: 5px !important;
+  padding: 0 5px 0;
 }
 .rbc-month-view {
   border: none !important;
@@ -60,7 +60,6 @@ div.rbc-month-row:nth-child(2) {
   color: white;
   font-weight: 400;
 
-  padding-left: 5px;
   button:not(:disabled),
   [type="button"]:not(:disabled),
   [type="reset"]:not(:disabled),
@@ -81,7 +80,7 @@ div.rbc-month-row:nth-child(2) {
 .rbc-event {
   min-height: 0 !important;
   border-radius: 18px !important;
-  padding: 2px 20px !important;
+  padding: 2px 5px !important;
   font-weight: 300;
   font-size: 0.7em;
 }
@@ -118,8 +117,6 @@ div.rbc-month-row:nth-child(2) {
 .rbc-timeslot-group {
   border-bottom: 1px solid #3e3e3e !important;
 }
-
-
 
 .rbc-current-time-indicator {
   background-color: #1984e2 !important;

@@ -116,7 +116,7 @@ export const CustomSelector = styled.select`
   padding: 10px;
   border-radius: 12px;
   background-color: ${({ theme }) => theme.colors.secondary};
-
+  border: 1px solid ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.primary};
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: 14px;
