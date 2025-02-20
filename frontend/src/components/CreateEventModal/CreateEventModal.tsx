@@ -2,12 +2,7 @@ import { useState, useRef } from "react";
 import { registerLocale } from "react-datepicker";
 import { useCreateEvent } from "../../hooks/useCreateEvent";
 import { GenericModal } from "../GenericModal/GenericModal";
-import {
-  Container,
-  CustomDatePicker,
-  Form,
-  Input,
-} from "./styles";
+import { Container, CustomDatePicker, Form, Input } from "./styles";
 import { Button } from "../Button/Button";
 import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
 import "react-datepicker/dist/react-datepicker.css";
@@ -121,6 +116,7 @@ export const CreateEventModal = ({
             )}
 
             <CustomDatePicker
+              timeIntervals={5}
               selected={formData.end}
               onChange={(date: any) => handleDateChange(date, "end")}
               showTimeSelect

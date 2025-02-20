@@ -18,11 +18,7 @@ import { useDeleteEvent } from "../../hooks/useDeleteEvent";
 import { eventValidationSchema } from "../../validation/eventValidationSchema";
 import { handleUpdateEvent } from "./handleUpdateEvent";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
-import { useToast } from "../../hooks/useToast";
-import {
-  errorMessages,
-  successMessages,
-} from "../../responses/responseMessages";
+import { handleDeleteEvent } from "./handleDeleteEvent";
 
 registerLocale("pt-BR", ptBR);
 
@@ -95,22 +91,6 @@ export const UpdateEventModal = ({
     }
   };
 
-  const handleDeleteEvent = async (calendarEventId: string) => {
-    try {
-      const response = await deleteEventFn(calendarEventId);
-      const successCode = response?.message;
-      const successMessage =
-        successMessages[successCode] || "Evento excluído com sucesso!";
-      useToast(successMessage, "success");
-      onClose();
-    } catch (error: any) {
-      const errorCode = error.response?.data?.message;
-      const errorMessage =
-        errorMessages[errorCode] || "Erro ao excluir evento.";
-      useToast(errorMessage, "error");
-    }
-  };
-
   return (
     <GenericModal title="Atualizar Evento" closer={onClose}>
       {!isUpdatePending && !isDeletePending ? (
@@ -140,6 +120,7 @@ export const UpdateEventModal = ({
             {errors.start && <ErrorMessage>{errors.start}</ErrorMessage>}
 
             <CustomDatePicker
+              timeIntervals={5}
               selected={formData.end}
               onChange={(date: Date) => handleDateChange(date, "end")}
               showTimeSelect
@@ -163,7 +144,7 @@ export const UpdateEventModal = ({
               $textColor="white"
               $hoverTextColor={theme.colors.red}
               onClick={() => {
-                handleDeleteEvent(calendarEventId);
+                handleDeleteEvent(calendarEventId, deleteEventFn, onClose);
               }}
             >
               Excluir
