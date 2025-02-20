@@ -2,6 +2,7 @@ import { useAuth } from "react-oidc-context";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner";
 import { LoginTitleComponent } from "../../components/LoginTitleComponent/LoginTitleComponent";
 import { Container } from "./styles";
+import { WidthContainer } from "../../components/WidthContainer/WidthContainer";
 
 export const Auth = () => {
   const auth = useAuth();
@@ -19,8 +20,10 @@ export const Auth = () => {
   }
 
   return (
-    <Container>
-      <LoginTitleComponent onClick={() => auth.signinRedirect()} />
-    </Container>
+    <WidthContainer>
+      <Container>
+        <LoginTitleComponent onClick={() => auth.signinRedirect()} />
+      </Container>
+    </WidthContainer>
   );
 };
