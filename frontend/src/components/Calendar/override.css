@@ -13,6 +13,7 @@ body {
   align-items: center;
   justify-content: center;
   border: none !important;
+  font-size: clamp(10px, 1.2vw, 16px);
 }
 
 .rbc-day-bg {
@@ -78,17 +79,24 @@ div.rbc-month-row:nth-child(2) {
 }
 
 .rbc-event {
+  background-color: #c65b50;
   min-height: 0 !important;
   border-radius: 18px !important;
   padding: 2px 5px !important;
   font-weight: 300;
-  font-size: 0.7em;
+  font-size: clamp(8px, 1.2vw, 11px);
+  margin: 1px 0;
+}
+
+.rbc-selected {
+  background-color: #974b43 !important;
 }
 
 .rbc-month-header {
   height: 28px;
   align-items: center;
   justify-content: center;
+  border: none;
 }
 
 .rbc-row-bg {
@@ -128,4 +136,21 @@ div.rbc-month-row:nth-child(2) {
 
 .rbc-time-gutter {
   background-color: #d9d9d9 !important;
+}
+
+.rbc-overlay {
+  border-radius: 12px;
+  background-color: #d9d9d9;
+  border: none;
+}
+
+.rbc-overlay-header {
+  color: #23272a;
+}
+
+.rbc-show-more {
+  width: 100%;
+  margin-top: 1px;
+  padding: 0 !important;
+  font-size: clamp(8px, 1.2vw, 14px)
 }

@@ -1,6 +1,6 @@
 import {
   Calendar as BigCalendar,
-  momentLocalizer,
+  dateFnsLocalizer,
   View,
 } from "react-big-calendar";
 import moment from "moment";
@@ -9,12 +9,31 @@ import { useState } from "react";
 import { CreateEventModal } from "../CreateEventModal/CreateEventModal";
 import { UpdateEventModal } from "../EditEventModal/EditEventModal";
 import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import "./override.css";
 import { CustomToolbar } from "./CustomToolbar";
 import { Container } from "./CalendarStyles";
+import format from "date-fns/format";
+import parse from "date-fns/parse";
+import startOfWeek from "date-fns/startOfWeek";
+import getDay from "date-fns/getDay";
+import ptBR from "date-fns/locale/pt-BR";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import "./override.css";
 
-const localizer = momentLocalizer(moment);
+const locales = {
+  ptBR: ptBR,
+};
+
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+});
+
+const messages = {
+  showMore: (total: number) => `+${total} eventos`
+}
 
 export const Calendar = () => {
   const [createEventModalIsOpen, setCreateEventModalIsOpen] = useState(false);
@@ -66,6 +85,10 @@ export const Calendar = () => {
         view={view}
       />
       <BigCalendar
+        messages={messages}
+        localizer={localizer}
+        culture="ptBR"
+        popup
         events={events}
         selectable
         date={date}
@@ -75,7 +98,6 @@ export const Calendar = () => {
         onSelectSlot={handleOpenCreateEventModal}
         onSelectEvent={handleOpenUpdateEventModal}
         views={["month", "day"]}
-        localizer={localizer}
         style={{ height: 500 }}
         toolbar={false}
       />
