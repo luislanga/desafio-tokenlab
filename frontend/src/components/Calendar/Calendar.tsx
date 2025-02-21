@@ -32,8 +32,8 @@ const localizer = dateFnsLocalizer({
 });
 
 const messages = {
-  showMore: (total: number) => `+${total} eventos`
-}
+  showMore: (total: number) => `+${total} eventos`,
+};
 
 export const Calendar = () => {
   const [createEventModalIsOpen, setCreateEventModalIsOpen] = useState(false);
@@ -100,6 +100,7 @@ export const Calendar = () => {
         views={["month", "day"]}
         style={{ height: 500 }}
         toolbar={false}
+        longPressThreshold={0}
       />
       {createEventModalIsOpen && (
         <CreateEventModal
