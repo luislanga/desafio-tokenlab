@@ -90,10 +90,10 @@ export class LambdasConstruct extends Construct {
       ),
     };
 
-    Object.values(this.userLambdas).forEach((lambda: any) => {
-      props.table.grantReadWriteData(lambda);
-    });
-    Object.values(this.calendarEventLambdas).forEach((lambda: any) => {
+    [
+      ...Object.values(this.userLambdas),
+      ...Object.values(this.calendarEventLambdas),
+    ].forEach((lambda: any) => {
       props.table.grantReadWriteData(lambda);
     });
   }
