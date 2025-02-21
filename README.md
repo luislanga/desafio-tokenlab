@@ -4,6 +4,10 @@
 
 This is a full-stack calendar application built for a code challenge interview. It consists of a serverless backend deployed using AWS CDK and a Vite React TypeScript frontend. The app allows users to authenticate via Cognito and manage calendar events using React Big Calendar and custom frontend components.
 
+## Live Demo
+
+https://tl-calendar.netlify.app/
+
 ## Tech Stack
 
 #### Backend:
