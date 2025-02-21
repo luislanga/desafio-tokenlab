@@ -19,6 +19,7 @@ import { eventValidationSchema } from "../../validation/eventValidationSchema";
 import { handleUpdateEvent } from "./handleUpdateEvent";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import { handleDeleteEvent } from "./handleDeleteEvent";
+import { FormBlock } from "../GenericModal/styles";
 
 registerLocale("pt-BR", ptBR);
 
@@ -100,39 +101,44 @@ export const UpdateEventModal = ({
       {!isUpdatePending && !isDeletePending ? (
         <Container>
           <Form>
-            <Input
-              type="text"
-              id="title"
-              name="title"
-              value={formData.title}
-              onChange={handleInputChange}
-              placeholder="Descrição"
-            />
-            {errors.title && <ErrorMessage>{errors.title}</ErrorMessage>}
-
-            <CustomDatePicker
-              selected={formData.start}
-              onChange={(date: Date) => handleDateChange(date, "start")}
-              showTimeSelect
-              dateFormat="Pp"
-              id="start"
-              placeholderText="Início"
-              locale="pt-BR"
-            />
-
-            {errors.start && <ErrorMessage>{errors.start}</ErrorMessage>}
-
-            <CustomDatePicker
-              selected={formData.end}
-              onChange={(date: Date) => handleDateChange(date, "end")}
-              showTimeSelect
-              dateFormat="Pp"
-              id="end"
-              placeholderText="Término"
-              locale="pt-BR"
-            />
-
-            {errors.end && <ErrorMessage>{errors.end}</ErrorMessage>}
+            <FormBlock>
+              <span>Descrição do evento</span>
+              <Input
+                type="text"
+                id="title"
+                name="title"
+                value={formData.title}
+                onChange={handleInputChange}
+                placeholder="Descrição"
+              />
+              {errors.title && <ErrorMessage>{errors.title}</ErrorMessage>}
+            </FormBlock>
+            <FormBlock>
+              <span>Data de início</span>
+              <CustomDatePicker
+                selected={formData.start}
+                onChange={(date: Date) => handleDateChange(date, "start")}
+                showTimeSelect
+                dateFormat="Pp"
+                id="start"
+                placeholderText="Início"
+                locale="pt-BR"
+              />
+              {errors.start && <ErrorMessage>{errors.start}</ErrorMessage>}
+            </FormBlock>
+            <FormBlock>
+              <span>Data de término</span>
+              <CustomDatePicker
+                selected={formData.end}
+                onChange={(date: Date) => handleDateChange(date, "end")}
+                showTimeSelect
+                dateFormat="Pp"
+                id="end"
+                placeholderText="Término"
+                locale="pt-BR"
+              />
+              {errors.end && <ErrorMessage>{errors.end}</ErrorMessage>}
+            </FormBlock>
           </Form>
           <ButtonWrapper>
             <Button disabled={isUpdatePending} onClick={handleSubmit}>
