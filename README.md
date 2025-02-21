@@ -127,4 +127,5 @@ The project was intentionally developed with a focused scope, given the timefram
 
 - **Frontend Validation for Business Logic** - There are several conditions required for the app to function correctly (e.g., event start date must be before the end date, valid user input formats, etc.). These conditions have been implemented in the backend, but due to time constraints, the frontend validations have not been fully addressed. Future work should include adding these validations on the frontend to ensure that users are guided to input valid data before submission, avoiding unnecessary fetching.
 
+- **Smoother Auth Flow** - Rather than redirecting the user to an external authentication page, the app could handle the authentication process internally.
 </details>
