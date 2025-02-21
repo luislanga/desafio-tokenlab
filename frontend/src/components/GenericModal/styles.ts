@@ -30,7 +30,7 @@ export const Container = styled.div`
   gap: 20px;
   max-width: 100vw;
   min-width: 330px;
-  height: 100vh;
+  height: 100dvh;
   position: fixed;
   top: 0;
   right: 0;
