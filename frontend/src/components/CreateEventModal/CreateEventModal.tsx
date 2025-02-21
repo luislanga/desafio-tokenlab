@@ -106,7 +106,6 @@ export const CreateEventModal = ({
             )}
 
             <CustomDatePicker
-              timeIntervals={5}
               selected={formData.start}
               onChange={(date: any) => handleDateChange(date, "start")}
               showTimeSelect
@@ -120,7 +119,6 @@ export const CreateEventModal = ({
             )}
 
             <CustomDatePicker
-              timeIntervals={5}
               selected={formData.end}
               onChange={(date: any) => handleDateChange(date, "end")}
               showTimeSelect

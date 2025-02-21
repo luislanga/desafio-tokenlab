@@ -92,7 +92,11 @@ export const UpdateEventModal = ({
   };
 
   return (
-    <GenericModal title="Atualizar Evento" closer={onClose} isSubmitting={isUpdatePending || isDeletePending}>
+    <GenericModal
+      title="Atualizar Evento"
+      closer={onClose}
+      isSubmitting={isUpdatePending || isDeletePending}
+    >
       {!isUpdatePending && !isDeletePending ? (
         <Container>
           <Form>
@@ -107,7 +111,6 @@ export const UpdateEventModal = ({
             {errors.title && <ErrorMessage>{errors.title}</ErrorMessage>}
 
             <CustomDatePicker
-              timeIntervals={5}
               selected={formData.start}
               onChange={(date: Date) => handleDateChange(date, "start")}
               showTimeSelect
@@ -120,7 +123,6 @@ export const UpdateEventModal = ({
             {errors.start && <ErrorMessage>{errors.start}</ErrorMessage>}
 
             <CustomDatePicker
-              timeIntervals={5}
               selected={formData.end}
               onChange={(date: Date) => handleDateChange(date, "end")}
               showTimeSelect
