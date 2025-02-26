@@ -30,10 +30,6 @@ https://tl-calendar.netlify.app/
 
 The backend is a serverless API exposed through API Gateway, handling requests via Lambda functions and storing data in DynamoDB. The frontend interacts with the API using authenticated requests and renders events using React Big Calendar. Authentication is handled by Cognito and OIDC.
 
-#### Diagram:
-
-![Architecture Overview](./diagram.png)
-
 ## Setup Instructions
 
 #### Prerequisites
